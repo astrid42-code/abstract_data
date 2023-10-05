@@ -23,6 +23,7 @@ M_FT		=	-D FT
 
 RM			=	rm -f
 
+# SRCS		= 	main_deque.cpp
 SRCS		=	main.cpp
 # SRCS		=	main_map.cpp
 # SRCS		=	main_vector.cpp

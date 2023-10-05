@@ -7,6 +7,11 @@
 #include "iterator_traits.hpp"
 #include "type_traits.hpp"
 
+
+// A sequence is a kind of container that organizes a finite set of objects,
+// all of the same type, into a strictly linear arrangement. 
+// vector is the type of sequence that should be used by default
+
 namespace ft
 {
     template <class T, class Alloc = std::allocator<T> >
@@ -30,7 +35,7 @@ namespace ft
 		private:
 			size_type 	_size; // nb of objects in my vector
 			size_type 	_capacity; // total capacity of my vector (distance between first and last)
-			Alloc	_alloc; // alloc object
+			Alloc		_alloc; // alloc object
 			pointer		_begin; // ptr to begining of memory block
 			
 		
@@ -60,7 +65,7 @@ namespace ft
 			{
 				_capacity = x.size();
 				_size = x.size();
-				_alloc = x.get_alloc();
+				_alloc = x.get_allocator();
 				_begin = _alloc.allocate(_capacity);
 				for (size_type i = 0; i < _size; i++){
 					_alloc.construct(&_begin[i], x[i]);
@@ -110,8 +115,8 @@ namespace ft
 
 			// Get a copy of the container’s allocator
 			// In all container types defined in this clause, the member
-			// get_alloc() returns a copy of the Alloc object used to construct the container
-			alloc_type get_alloc() const
+			// get_allocator() returns a copy of the Alloc object used to construct the container
+			alloc_type get_allocator() const
 			{
 				return (_alloc);
 			}

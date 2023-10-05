@@ -1,5 +1,5 @@
-#ifndef IT_HPP
-#define IT_HPP
+#ifndef RANDOM_IT_HPP
+#define RANDOM_IT_HPP
 
 #include <iterator>
 #include "iterator_traits.hpp"
@@ -125,19 +125,7 @@ checker les operations manquantes et / ou a modifier par rapport aux biderection
 	// random_it::~random_it()
 	// {
 	// }
-	
-	
-	// struct iterator_traits;
-	// template<class T> struct iterator_traits<T*>;
 
-	// template<class Category, class T, class Distance = ptrdiff_t,
-	// 	class Pointer = T*, class Reference = T&> struct iterator;
-
-	// struct input_iterator_tag {};
-	// struct output_iterator_tag {};
-	// struct forward_iterator_tag: public input_iterator_tag {};
-	// struct bidirectional_iterator_tag: public forward_iterator_tag {};
-	// struct random_access_iterator_tag: public bidirectional_iterator_tag {};
 
 	// // 24.3.4, iterator operations:
 	// template <class InputIterator, class Distance>

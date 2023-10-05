@@ -20,10 +20,12 @@
 #include "main_vector.cpp"
 #include "main_map.cpp"
 #include "main_set.cpp"
+#include "main_deque.cpp"
 #include <stack>
 #include <vector>
 #include <map>
 #include <set>
+#include <deque>
 
 void	print_res(int i, std::string name)
 {
@@ -43,9 +45,10 @@ int main(int ac, char *av[])
 	(void)av;
 	if (ac != 1)
 		return (1);
-	main_stack();
-	main_vector();
-	main_map();
-	main_set();
+	main_deque();
+	// main_stack();
+	// main_vector();
+	// main_map();
+	// main_set();
 	return (0);
 }
