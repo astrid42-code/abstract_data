@@ -82,7 +82,8 @@ namespace ft
 					_alloc.deallocate(_begin, _capacity);
 			}
 
-			vector& operator=(const vector& x){
+			vector& operator=(const vector& x)
+			{
 				clear();
 				insert(begin(), x.begin(), x.end());
 				return (*this);
@@ -143,7 +144,7 @@ namespace ft
 
 			const_iterator end() const 
 			{
-				return _begin + _size;
+				return (_begin + _size);
 			}
 			
 			reverse_iterator rbegin() 
@@ -217,7 +218,8 @@ namespace ft
 			}
 			
 			// Is the container empty?
-			bool empty() const {
+			bool empty() const 
+			{
 				return (_size == 0);
 			}
 

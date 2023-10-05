@@ -45,13 +45,17 @@ namespace ft
 
 			// Effects: Constructs an empty deque, using the specified allocator.
 			// Complexity: Constant.
-			explicit deque(const Alloc &alloc = Alloc()) : _size(0), _capacity(0), _alloc(alloc), _begin(NULL) {}
+			explicit deque(const Alloc &alloc = Alloc()) : _size(0), _capacity(0), _alloc(alloc), _begin(NULL) 
+			{
+				// std::cout << "default constructor" << std::endl;
+			}
 
 			// Effects: Constructs a deque with n copies of value, using the specified allocator.
 			// Complexity: Linear in n.
 			explicit deque(size_type n, const T & value = T(), const Alloc& alloc = Alloc())
 				: _size(n), _capacity(_size), _alloc(alloc), _begin(_alloc.allocate(_capacity))
 			{
+				// std::cout << "constructor 2" << std::endl;
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_begin[i], value);
 			}
@@ -65,6 +69,7 @@ namespace ft
 			deque(Iter first, typename ft::enable_if<!ft::is_integral<Iter>::value, Iter>::type last, const allocator_type& alloc = Alloc())
 				: _size(std::distance(first, last)), _capacity(_size), _alloc(alloc), _begin(_alloc.allocate(_capacity))
 			{
+				// std::cout << "constructor 3" << std::endl;
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_begin[i], *(first++));
 			}
@@ -72,6 +77,7 @@ namespace ft
 			// copy constructor
 			deque(const deque<T,Alloc>& x)
 			{
+				// std::cout << "copy constructor" << std::endl;
 				_capacity = x.size();
 				_size = x.size();
 				_alloc = x.get_allocator();
@@ -82,6 +88,7 @@ namespace ft
 			}
 			
 			~deque(){
+				// std::cout << "destructor" << std::endl;
 				clear();
 				for (size_t i = 0; i < _size; i++)
 				{
@@ -91,7 +98,12 @@ namespace ft
 					_alloc.deallocate(_begin, _capacity);
 			}
 			
-			deque<T,Alloc>& operator=(const deque<T,Alloc>& x);
+			deque<T,Alloc>& operator=(const deque<T,Alloc>& x)
+			{
+				clear();
+				insert(begin(), x.begin(), x.end());
+				return (*this);
+			}
 			
 			template <class InputIterator>
 			void assign(InputIterator first, InputIterator last);
@@ -113,13 +125,36 @@ namespace ft
 			{
 				return const_iterator(_begin);
 			}
-			
-			iterator end();
-			const_iterator end() const;
-			reverse_iterator rbegin();
-			const_reverse_iterator rbegin() const;
-			reverse_iterator rend();
-			const_reverse_iterator rend() const;
+
+			iterator end()
+			{
+				return (_begin + _size); 
+			}
+
+			const_iterator end() const
+			{
+				return (_begin + _size); 
+			}
+
+			reverse_iterator rbegin() 
+			{
+				return reverse_iterator(end());
+			}
+
+			const_reverse_iterator rbegin() const 
+			{
+				return const_reverse_iterator(end());
+			}
+
+			reverse_iterator rend()
+			{
+				return reverse_iterator(begin());
+			}
+
+			const_reverse_iterator rend() const
+			{
+				return const_reverse_iterator(begin());
+			}
 			
 			// 23.2.1.2 capacity:
 			size_type size() const
@@ -127,9 +162,42 @@ namespace ft
 				return (_size);
 			}
 
-			size_type max_size() const;
-			void resize(size_type sz, T c = T());
-			bool empty() const;
+			size_type max_size() const
+			{
+				return (_alloc.max_size());
+			}
+
+			void resize(size_type sz, T c = T())
+			// plus le droit a reserve!!!
+			{
+					if (sz > _size)
+					{
+						// reserve(std::max(_size * 2, sz));
+						while (_size < sz)
+						{
+							_alloc.construct(&_begin[_size], c);
+							_size++;
+						}
+						_size = sz;
+					}
+					else if (sz < _size)
+					{
+						while (sz < _size)
+						{
+							_alloc.destroy(&_begin[_size - 1]);
+							_size--;
+						}
+					_size = sz;
+					}
+					else
+						return ;
+			}
+
+			bool empty() const
+			{
+				return (_size == 0);
+			}
+
 
 			// element access:
 			reference operator[](size_type n)
@@ -150,17 +218,129 @@ namespace ft
 			const_reference back() const;
 			// 23.2.1.3 modifiers:
 			void push_front(const T& x);
-			void push_back(const T& x);
-			iterator insert(iterator position, const T& x);
-			void insert(iterator position, size_type n, const T& x);
-			template <class InputIterator>
-			void insert (iterator position,
-			InputIterator first, InputIterator last);
+
+			void push_back(const T& x)
+			{
+				if (_capacity == 0)
+					resize(1);
+				else if (_size >= _capacity)
+					resize(_capacity * 2);
+				_alloc.construct(&_begin[_size], x);
+				_size++;
+			}
+
+			iterator insert(iterator pos, const T& x)
+			{
+				try
+				{
+					ft::deque<value_type>	tmp_v = *this;
+					iterator tmp_it = tmp_v.begin() + std::distance(begin(), pos);
+					size_type tmp_s = std::distance(begin(), pos);
+
+					if (_size + 1 > _capacity)
+						resize(_size * 2);
+					clear();
+
+					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
+						push_back(*it2);
+					push_back(x);
+					for (iterator it2 = tmp_it; it2 != tmp_v.end(); it2++)
+						push_back(*it2);
+
+					return (&_begin[tmp_s]);
+				}
+
+				catch(const std::exception &e)
+				{
+					throw std::length_error("cannot create std::deque larger than max_size()");
+				}
+			}
+
+			void insert(iterator pos, size_type n, const T& x)
+			{
+				try
+				{
+					size_type s = _size + n; 
+					size_type i = 0;
+				
+					ft::deque<value_type>	tmp_v = *this;
+					iterator tmp_it = tmp_v.begin() + std::distance(begin(), pos);
+
+					if (n == 0)
+						return;
+					if (s > _capacity)
+						resize(std::max(s, _size * 2));
+					clear();
+
+					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
+						push_back(*it2);
+					while (i != n)
+					{
+						push_back(x);
+						i++;
+					}
+
+					for (iterator it2 = tmp_it; it2 != tmp_v.end(); it2++)
+						push_back(*it2);
+				}
+
+				catch(const std::exception &e)
+				{
+					throw std::length_error("deque::_M_fill_insert");
+				}
+			}
+
+			template <class Iter>
+			void insert (iterator pos, Iter first, typename enable_if<!is_integral<Iter>::value, Iter>::type last)
+			{
+				try
+				{
+					size_type tmp2 = std::distance(first, last);
+					size_type s = _size + tmp2;
+
+					ft::deque<value_type>	tmp_v = *this;
+					iterator tmp_it = tmp_v.begin() + std::distance(begin(), pos);
+				
+					if (s > _capacity){
+						resize(std::max(s, _size * 2));
+					}
+					clear();
+
+					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
+						push_back(*it2);
+
+					for (size_type i = 0; first != last; i++)
+						push_back(*first++);
+					for (iterator it2 = tmp_it; it2< tmp_v.end(); it2++)
+						push_back(*it2);
+				}
+
+				catch(const std::exception &e){
+					throw std::length_error("deque::_M_fill_insert"); 
+				}
+			}
+
 			void pop_front();
 			void pop_back();
 			iterator erase(iterator position);
 			iterator erase(iterator first, iterator last);
-			void swap(deque<T,Alloc>&);
+			void swap(deque<T,Alloc>& y)
+			{
+				size_t	tmp_capacity = y._capacity;
+				size_t	tmp_size = y._size;
+				Alloc	tmp_alloc = y._alloc;
+				pointer	tmp_begin = y._begin;
+
+				y._capacity = _capacity;
+				y._size = _size;
+				y._alloc = _alloc;
+				y._begin = _begin;
+
+				_capacity = tmp_capacity;
+				_size = tmp_size;
+				_alloc = tmp_alloc;
+				_begin = tmp_begin;
+			}
 
 			void clear()
 			{
@@ -172,26 +352,47 @@ namespace ft
 	};
     
 	template <class T, class Alloc>
-	bool operator==(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y);
+	bool operator==(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y)
+	{
+		return (x.size() == y.size() && ft::equal(x.begin(), x.end(), y.begin()));
+	}
+
+	template <class T, class Alloc>
+	bool operator!=(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y)
+	{
+		return !(x == y);
+	}
     
 	template <class T, class Alloc>
-	bool operator<(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y);
+	bool operator<(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y)
+	{
+		return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
+	}
 
 	template <class T, class Alloc>
-	bool operator!=(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y);
+	bool operator>(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y)
+	{
+		return ft::lexicographical_compare(y.begin(), y.end(), x.begin(), x.end());
+	}
 
 	template <class T, class Alloc>
-	bool operator>(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y);
+	bool operator>=(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y)
+	{
+		return !(x < y);
+	}
 
 	template <class T, class Alloc>
-	bool operator>=(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y);
-
-	template <class T, class Alloc>
-	bool operator<=(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y);
+	bool operator<=(const ft::deque<T,Alloc>& x, const ft::deque<T,Alloc>& y)
+	{
+		return (!(x > y));
+	}
 
 	// specialized algorithms:
 	template <class T, class Alloc>
-	void swap(ft::deque<T,Alloc>& x, ft::deque<T,Alloc>& y);
+	void swap(ft::deque<T,Alloc>& x, ft::deque<T,Alloc>& y)
+	{
+		x.swap(y);
+	}
 }
 
 #endif
