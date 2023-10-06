@@ -9,6 +9,38 @@
 
 using namespace NAMESPACE;
 
+void test_push_deque()
+{
+	std::cout << "		######## pushback/iterators ########" << std::endl;
+	
+
+	// std::deque<int> mydeque;
+	// int myint;
+
+	// std::cout << "Please enter some integers (enter 0 to end):\n";
+
+	// do {
+	// 	std::cin >> myint;
+	// 	mydeque.push_back (myint);
+	// } while (myint); // attention rajouter conditions : si myint pas un int genre avec !=isdigit() ?
+
+	// std::cout << "mydeque stores " << (int) mydeque.size() << " numbers.\n";
+
+	deque<int> mydeque2;
+	for (int i=1; i<=5; i++) 
+	{
+		mydeque2.push_back(i);
+		// std::cout << "mydeque2 contains:" << mydeque2[i] << std::endl;
+		// le cout plante, checker les valeurs de mon deque avec un iterator, comme en dessous
+	}
+	std::cout << "at least mydeque2 contains:";
+	deque<int>::iterator it = mydeque2.begin();
+	while (it != mydeque2.end())
+		std::cout << ' ' << *it++;
+	std::cout << '\n';
+
+}
+
 void test_deque_operator()
 {
 	std::cout << "		######## operator = ########" << std::endl;
@@ -51,11 +83,11 @@ void	main_deque()
 
 	std::cout << '\n';
 
-	test_deque_operator();
+	// test_deque_operator();
+	// std::cout << std::endl;
+	test_push_deque();
 	std::cout << std::endl;
-	
 // 	test_push_erase();
-// 	std::cout << std::endl;
 // 	test_popback();
 // 	std::cout << std::endl;
 // 	test_reserve();

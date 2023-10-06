@@ -173,15 +173,42 @@ namespace ft
 					if (sz > _size)
 					{
 						// reserve(std::max(_size * 2, sz));
+						// _size++;
+						size_type n = std::max(_size * 2, sz);
+						if (n > max_size())
+							throw std::length_error("deque::reserve");
+						else if (_capacity > n)
+							return ;
+						else
+						{
+							deque tmp = *this;
+							size_type old_size = _size;
+							size_type old_capacity = _capacity;
+							pointer old_begin = _begin;
+							clear();
+							_capacity = n;
+							if (_capacity)
+								_begin = _alloc.allocate(_capacity);
+							_size = old_size;
+
+							for (size_type i = 0; i < _size; i++){
+								_alloc.construct(&_begin[i], tmp[i]);
+							}
+							_alloc.deallocate(old_begin, old_capacity);
+						}
+
 						while (_size < sz)
 						{
+							// std::cout << "sz=" << _size << std::endl;
 							_alloc.construct(&_begin[_size], c);
 							_size++;
 						}
+						// std::cout << "sz = "<< sz << " size = "<< size() << std::endl;
 						_size = sz;
 					}
 					else if (sz < _size)
 					{
+						// std::cout << "salut2" << std::endl;
 						while (sz < _size)
 						{
 							_alloc.destroy(&_begin[_size - 1]);
@@ -191,6 +218,17 @@ namespace ft
 					}
 					else
 						return ;
+				// 
+				// if (sz > size())
+				// {
+				// 	insert(end(), sz - size(), c);
+				// }
+				// else if (sz < size())
+				// {
+				// 	std::cout << "salut2" << std::endl;
+				// 	erase(begin() + sz, end());
+				// }
+				// return;
 			}
 
 			bool empty() const
@@ -221,10 +259,63 @@ namespace ft
 
 			void push_back(const T& x)
 			{
+				// std::cout << "cap = " << _capacity << "sz = " << _size << std::endl;
 				if (_capacity == 0)
-					resize(1);
-				else if (_size >= _capacity)
-					resize(_capacity * 2);
+				{
+					// std::cout << "coucou1" << std::endl;
+					// reserve(1);
+					size_type n = 1;
+					if (n > max_size())
+						throw std::length_error("deque::reserve");
+					else if (_capacity > n)
+						return ;
+					else
+					{
+						deque tmp = *this;
+						size_type old_size = _size;
+						size_type old_capacity = _capacity;
+						pointer old_begin = _begin;
+						clear();
+						_capacity = n;
+						if (_capacity)
+							_begin = _alloc.allocate(_capacity);
+						_size = old_size;
+						for (size_type i = 0; i < _size; i++)
+						{
+							_alloc.construct(&_begin[i], tmp[i]);
+						}
+						_alloc.deallocate(old_begin, old_capacity);
+					}
+
+				}
+				else if (_size >= _capacity){
+
+					// std::cout << "coucou2" << std::endl;
+					// reserve(_capacity * 2);
+					size_type n = _capacity * 2;
+					if (n > max_size())
+						throw std::length_error("deque::reserve");
+					else if (_capacity > n)
+						return ;
+					else
+					{
+						deque tmp = *this;
+						size_type old_size = _size;
+						size_type old_capacity = _capacity;
+						pointer old_begin = _begin;
+						clear();
+						_capacity = n;
+						if (_capacity)
+							_begin = _alloc.allocate(_capacity);
+						_size = old_size;
+						for (size_type i = 0; i < _size; i++)
+						{
+							_alloc.construct(&_begin[i], tmp[i]);
+						}
+						_alloc.deallocate(old_begin, old_capacity);
+						}
+				}
+				// std::cout << "coucou3" << std::endl;
 				_alloc.construct(&_begin[_size], x);
 				_size++;
 			}
@@ -238,7 +329,32 @@ namespace ft
 					size_type tmp_s = std::distance(begin(), pos);
 
 					if (_size + 1 > _capacity)
-						resize(_size * 2);
+						// reserve(_size * 2);
+					{
+						size_type n = _size * 2;
+						if (n > max_size())
+							throw std::length_error("deque::reserve");
+						else if (_capacity > n)
+							return ;
+						else
+						{
+							deque tmp = *this;
+							size_type old_size = _size;
+							size_type old_capacity = _capacity;
+							pointer old_begin = _begin;
+							clear();
+							_capacity = n;
+							if (_capacity)
+								_begin = _alloc.allocate(_capacity);
+							_size = old_size;
+
+							for (size_type i = 0; i < _size; i++)
+							{
+								_alloc.construct(&_begin[i], tmp[i]);
+							}
+							_alloc.deallocate(old_begin, old_capacity);
+						}
+					}
 					clear();
 
 					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
@@ -265,11 +381,36 @@ namespace ft
 				
 					ft::deque<value_type>	tmp_v = *this;
 					iterator tmp_it = tmp_v.begin() + std::distance(begin(), pos);
-
 					if (n == 0)
 						return;
 					if (s > _capacity)
-						resize(std::max(s, _size * 2));
+						// reserve(std::max(s, _size * 2));
+					{
+						size_type n = std::max(s, _size * 2);
+						if (n > max_size())
+							throw std::length_error("deque::reserve");
+						else if (_capacity > n)
+							return ;
+						else
+						{
+							deque tmp = *this;
+							size_type old_size = _size;
+							size_type old_capacity = _capacity;
+							pointer old_begin = _begin;
+							clear();
+							_capacity = n;
+							if (_capacity)
+								_begin = _alloc.allocate(_capacity);
+							_size = old_size;
+
+							for (size_type i = 0; i < _size; i++)
+							{
+								_alloc.construct(&_begin[i], tmp[i]);
+							}
+							_alloc.deallocate(old_begin, old_capacity);
+						}
+					}
+					
 					clear();
 
 					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
@@ -302,7 +443,32 @@ namespace ft
 					iterator tmp_it = tmp_v.begin() + std::distance(begin(), pos);
 				
 					if (s > _capacity){
-						resize(std::max(s, _size * 2));
+						// reserve(std::max(s, _size * 2));
+					{
+						size_type n = std::max(s, _size * 2);
+						if (n > max_size())
+							throw std::length_error("deque::reserve");
+						else if (_capacity > n)
+							return ;
+						else
+						{
+							deque tmp = *this;
+							size_type old_size = _size;
+							size_type old_capacity = _capacity;
+							pointer old_begin = _begin;
+							clear();
+							_capacity = n;
+							if (_capacity)
+								_begin = _alloc.allocate(_capacity);
+							_size = old_size;
+
+							for (size_type i = 0; i < _size; i++)
+							{
+								_alloc.construct(&_begin[i], tmp[i]);
+							}
+							_alloc.deallocate(old_begin, old_capacity);
+						}
+					}
 					}
 					clear();
 
@@ -322,8 +488,50 @@ namespace ft
 
 			void pop_front();
 			void pop_back();
-			iterator erase(iterator position);
-			iterator erase(iterator first, iterator last);
+			iterator erase(iterator pos)
+			{
+				iterator _end = end();
+				try
+				{
+					for (iterator it = pos; it < _end; it++)
+					{
+						_alloc.destroy(it);
+						if (it + 1 != _end)
+							_alloc.construct(it, *(it + 1));
+					}
+					_size--;
+					return (pos);
+				}
+				catch (const std::exception& e)
+				{
+					throw "Error : erase";
+				}
+			}
+
+			iterator erase(iterator first, iterator last)
+			{
+				if (first == last)
+					return (first);
+				else
+				{
+					difference_type diff = std::distance(first, last); 
+					iterator it  = first;
+					for (it = first; it <  end() - diff; it++)
+					{
+						_alloc.destroy(it);
+						_alloc.construct(it, *(it + diff));
+					}
+					while (it != end())
+					{
+						_alloc.destroy(it);
+						it++;
+					}
+					_size -= diff ;
+					
+				}
+				return (first);
+			}
+
 			void swap(deque<T,Alloc>& y)
 			{
 				size_t	tmp_capacity = y._capacity;

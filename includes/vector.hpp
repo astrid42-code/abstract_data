@@ -243,7 +243,8 @@ namespace ft
 						_begin = _alloc.allocate(_capacity);
 					_size = old_size;
 
-					for (size_type i = 0; i < _size; i++){
+					for (size_type i = 0; i < _size; i++)
+					{
 						_alloc.construct(&_begin[i], tmp[i]);
 					}
 					_alloc.deallocate(old_begin, old_capacity);
