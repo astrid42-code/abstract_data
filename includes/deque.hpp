@@ -218,17 +218,6 @@ namespace ft
 					}
 					else
 						return ;
-				// 
-				// if (sz > size())
-				// {
-				// 	insert(end(), sz - size(), c);
-				// }
-				// else if (sz < size())
-				// {
-				// 	std::cout << "salut2" << std::endl;
-				// 	erase(begin() + sz, end());
-				// }
-				// return;
 			}
 
 			bool empty() const
@@ -487,7 +476,12 @@ namespace ft
 			}
 
 			void pop_front();
-			void pop_back();
+			void pop_back()
+			{
+				iterator it = end() - 1;
+				erase(it);
+			}
+			
 			iterator erase(iterator pos)
 			{
 				iterator _end = end();
