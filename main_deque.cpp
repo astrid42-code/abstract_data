@@ -47,10 +47,19 @@ void test_size_deque()
 	for (int i=1; i<10; ++i) mydeque.push_back(i);
 
 	mydeque.resize(5);
-	mydeque.resize(8,100);
-	mydeque.resize(12);
+	std::cout << "1 mydeque contains:";
+	for (deque<int>::iterator it = mydeque.begin(); it != mydeque.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
 
-	std::cout << "mydeque contains:";
+	mydeque.resize(8,100);
+	std::cout << "2 mydeque contains:";
+	for (deque<int>::iterator it = mydeque.begin(); it != mydeque.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+
+	mydeque.resize(12);
+	std::cout << "3 mydeque contains:";
 	for (deque<int>::iterator it = mydeque.begin(); it != mydeque.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << '\n';

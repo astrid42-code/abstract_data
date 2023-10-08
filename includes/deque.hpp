@@ -13,6 +13,11 @@
 // take place at the beginning or at the end of the sequence
 
 
+// A faire / revoir :
+// - faire deque (et list a priori) en mode liste chainee pour une bonne optimisation (qui fait partie des points a respecter)
+// - resize (si tjrs besoin en faisant listes chainees)
+// 	> pk retirer la condition capacity > size (alors que ok dans vector)
+
 namespace ft 
 {
 
@@ -38,6 +43,33 @@ namespace ft
 			size_type 	_capacity; // total capacity of my deque (distance between first and last)
 			Alloc		_alloc; // alloc object
 			pointer		_begin; // ptr to begining of memory block
+			// Reserve space for future expansion
+
+			void reserve(size_type n)
+			{
+				if (n > max_size())
+					throw std::length_error("deque::reserve");
+				else if (_capacity > n)
+					return ;
+				else
+				{
+					deque tmp = *this;
+					size_type old_size = _size;
+					size_type old_capacity = _capacity;
+					pointer old_begin = _begin;
+					clear();
+					_capacity = n;
+					if (_capacity)
+						_begin = _alloc.allocate(_capacity);
+					_size = old_size;
+
+					for (size_type i = 0; i < _size; i++)
+					{
+						_alloc.construct(&_begin[i], tmp[i]);
+					}
+					_alloc.deallocate(old_begin, old_capacity);
+				}
+			}
 
 		public:
 
@@ -168,34 +200,10 @@ namespace ft
 			}
 
 			void resize(size_type sz, T c = T())
-			// plus le droit a reserve!!!
 			{
 					if (sz > _size)
 					{
-						// reserve(std::max(_size * 2, sz));
-						// _size++;
-						size_type n = std::max(_size * 2, sz);
-						if (n > max_size())
-							throw std::length_error("deque::reserve");
-						else if (_capacity > n)
-							return ;
-						else
-						{
-							deque tmp = *this;
-							size_type old_size = _size;
-							size_type old_capacity = _capacity;
-							pointer old_begin = _begin;
-							clear();
-							_capacity = n;
-							if (_capacity)
-								_begin = _alloc.allocate(_capacity);
-							_size = old_size;
-
-							for (size_type i = 0; i < _size; i++){
-								_alloc.construct(&_begin[i], tmp[i]);
-							}
-							_alloc.deallocate(old_begin, old_capacity);
-						}
+						reserve(std::max(_size * 2, sz));
 
 						while (_size < sz)
 						{
@@ -250,61 +258,9 @@ namespace ft
 			{
 				// std::cout << "cap = " << _capacity << "sz = " << _size << std::endl;
 				if (_capacity == 0)
-				{
-					// std::cout << "coucou1" << std::endl;
-					// reserve(1);
-					size_type n = 1;
-					if (n > max_size())
-						throw std::length_error("deque::reserve");
-					else if (_capacity > n)
-						return ;
-					else
-					{
-						deque tmp = *this;
-						size_type old_size = _size;
-						size_type old_capacity = _capacity;
-						pointer old_begin = _begin;
-						clear();
-						_capacity = n;
-						if (_capacity)
-							_begin = _alloc.allocate(_capacity);
-						_size = old_size;
-						for (size_type i = 0; i < _size; i++)
-						{
-							_alloc.construct(&_begin[i], tmp[i]);
-						}
-						_alloc.deallocate(old_begin, old_capacity);
-					}
-
-				}
-				else if (_size >= _capacity){
-
-					// std::cout << "coucou2" << std::endl;
-					// reserve(_capacity * 2);
-					size_type n = _capacity * 2;
-					if (n > max_size())
-						throw std::length_error("deque::reserve");
-					else if (_capacity > n)
-						return ;
-					else
-					{
-						deque tmp = *this;
-						size_type old_size = _size;
-						size_type old_capacity = _capacity;
-						pointer old_begin = _begin;
-						clear();
-						_capacity = n;
-						if (_capacity)
-							_begin = _alloc.allocate(_capacity);
-						_size = old_size;
-						for (size_type i = 0; i < _size; i++)
-						{
-							_alloc.construct(&_begin[i], tmp[i]);
-						}
-						_alloc.deallocate(old_begin, old_capacity);
-						}
-				}
-				// std::cout << "coucou3" << std::endl;
+					reserve(1);
+				else if (_size >= _capacity)
+					reserve(_capacity * 2);
 				_alloc.construct(&_begin[_size], x);
 				_size++;
 			}
@@ -318,32 +274,7 @@ namespace ft
 					size_type tmp_s = std::distance(begin(), pos);
 
 					if (_size + 1 > _capacity)
-						// reserve(_size * 2);
-					{
-						size_type n = _size * 2;
-						if (n > max_size())
-							throw std::length_error("deque::reserve");
-						else if (_capacity > n)
-							return ;
-						else
-						{
-							deque tmp = *this;
-							size_type old_size = _size;
-							size_type old_capacity = _capacity;
-							pointer old_begin = _begin;
-							clear();
-							_capacity = n;
-							if (_capacity)
-								_begin = _alloc.allocate(_capacity);
-							_size = old_size;
-
-							for (size_type i = 0; i < _size; i++)
-							{
-								_alloc.construct(&_begin[i], tmp[i]);
-							}
-							_alloc.deallocate(old_begin, old_capacity);
-						}
-					}
+						reserve(_size * 2);
 					clear();
 
 					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
@@ -373,33 +304,7 @@ namespace ft
 					if (n == 0)
 						return;
 					if (s > _capacity)
-						// reserve(std::max(s, _size * 2));
-					{
-						size_type n = std::max(s, _size * 2);
-						if (n > max_size())
-							throw std::length_error("deque::reserve");
-						else if (_capacity > n)
-							return ;
-						else
-						{
-							deque tmp = *this;
-							size_type old_size = _size;
-							size_type old_capacity = _capacity;
-							pointer old_begin = _begin;
-							clear();
-							_capacity = n;
-							if (_capacity)
-								_begin = _alloc.allocate(_capacity);
-							_size = old_size;
-
-							for (size_type i = 0; i < _size; i++)
-							{
-								_alloc.construct(&_begin[i], tmp[i]);
-							}
-							_alloc.deallocate(old_begin, old_capacity);
-						}
-					}
-					
+						reserve(std::max(s, _size * 2));					
 					clear();
 
 					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
@@ -431,34 +336,8 @@ namespace ft
 					ft::deque<value_type>	tmp_v = *this;
 					iterator tmp_it = tmp_v.begin() + std::distance(begin(), pos);
 				
-					if (s > _capacity){
-						// reserve(std::max(s, _size * 2));
-					{
-						size_type n = std::max(s, _size * 2);
-						if (n > max_size())
-							throw std::length_error("deque::reserve");
-						else if (_capacity > n)
-							return ;
-						else
-						{
-							deque tmp = *this;
-							size_type old_size = _size;
-							size_type old_capacity = _capacity;
-							pointer old_begin = _begin;
-							clear();
-							_capacity = n;
-							if (_capacity)
-								_begin = _alloc.allocate(_capacity);
-							_size = old_size;
-
-							for (size_type i = 0; i < _size; i++)
-							{
-								_alloc.construct(&_begin[i], tmp[i]);
-							}
-							_alloc.deallocate(old_begin, old_capacity);
-						}
-					}
-					}
+					if (s > _capacity)
+						reserve(std::max(s, _size * 2));
 					clear();
 
 					for (iterator it2 = tmp_v.begin(); it2 != tmp_it; it2++)
