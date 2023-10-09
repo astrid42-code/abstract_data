@@ -74,6 +74,24 @@ void	test_queue_push(queue<int> mq)
 		mq.pop();
 	}
 	std::cout << '\n';
+
+	// int myint;
+
+	// std::cout << "Please enter some integers (enter 0 to end):\n";
+
+	// do {
+	// 	std::cin >> myint;
+	// 	mq.push (myint);
+	// } while (myint);
+
+	// std::cout << "mq contains: ";
+	// while (!mq.empty())
+	// {
+	// 	std::cout << ' ' << mq.front();
+	// 	mq.pop();
+	// }
+	// std::cout << '\n';
+
 }
 
 void	test_queue_pop(queue<int> mq)
