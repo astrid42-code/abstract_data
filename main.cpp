@@ -21,6 +21,7 @@
 #include "main_map.cpp"
 #include "main_set.cpp"
 #include "main_deque.cpp"
+#include "main_queue.cpp"
 #include <stack>
 #include <vector>
 #include <map>
@@ -45,7 +46,8 @@ int main(int ac, char *av[])
 	(void)av;
 	if (ac != 1)
 		return (1);
-	main_deque();
+	main_queue();
+	// main_deque();
 	// main_stack();
 	// main_vector();
 	// main_map();
