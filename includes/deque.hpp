@@ -15,8 +15,23 @@
 
 // A faire / revoir :
 // - faire deque (et list a priori) en mode liste chainee pour une bonne optimisation (qui fait partie des points a respecter)
+// cf : https://www.geeksforgeeks.org/implementation-deque-using-doubly-linked-list/
 // - resize (si tjrs besoin en faisant listes chainees)
 // 	> pk retirer la condition capacity > size (alors que ok dans vector)
+
+struct Node { 
+    int data; 
+    Node *prev, *next; 
+    // Function to get a new node 
+    static Node* getnode(int data) 
+    { 
+        Node* newNode = new Node(); 
+        newNode->data = data; 
+        newNode->prev = newNode->next = NULL; 
+        return newNode; 
+    } 
+}; 
+
 
 namespace ft 
 {
@@ -43,6 +58,9 @@ namespace ft
 			size_type 	_capacity; // total capacity of my deque (distance between first and last)
 			Alloc		_alloc; // alloc object
 			pointer		_begin; // ptr to begining of memory block
+			Node		*_front;
+			Node 		*_rear;
+
 			// Reserve space for future expansion
 
 			void reserve(size_type n)
@@ -79,6 +97,7 @@ namespace ft
 			// Complexity: Constant.
 			explicit deque(const Alloc &alloc = Alloc()) : _size(0), _capacity(0), _alloc(alloc), _begin(NULL) 
 			{
+				_front = _rear = NULL;
 				// std::cout << "default constructor" << std::endl;
 			}
 
@@ -87,6 +106,7 @@ namespace ft
 			explicit deque(size_type n, const T & value = T(), const Alloc& alloc = Alloc())
 				: _size(n), _capacity(_size), _alloc(alloc), _begin(_alloc.allocate(_capacity))
 			{
+				_front = _rear = NULL;
 				// std::cout << "constructor 2" << std::endl;
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_begin[i], value);
@@ -101,6 +121,7 @@ namespace ft
 			deque(Iter first, typename ft::enable_if<!ft::is_integral<Iter>::value, Iter>::type last, const allocator_type& alloc = Alloc())
 				: _size(std::distance(first, last)), _capacity(_size), _alloc(alloc), _begin(_alloc.allocate(_capacity))
 			{
+				_front = _rear = NULL;
 				// std::cout << "constructor 3" << std::endl;
 				for (size_type i = 0; i < _size; i++)
 					_alloc.construct(&_begin[i], *(first++));
@@ -109,6 +130,7 @@ namespace ft
 			// copy constructor
 			deque(const deque<T,Alloc>& x)
 			{
+				_front = _rear = NULL;
 				// std::cout << "copy constructor" << std::endl;
 				_capacity = x.size();
 				_size = x.size();
@@ -128,6 +150,8 @@ namespace ft
 				}
 				if (_begin != NULL)
 					_alloc.deallocate(_begin, _capacity);
+				delete _front;
+				delete _rear; // faire une boucle pour delete tous les nodes !
 			}
 			
 			deque<T,Alloc>& operator=(const deque<T,Alloc>& x)
