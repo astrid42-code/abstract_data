@@ -12,81 +12,83 @@
 
 using namespace NAMESPACE;
 
-void    test_queue_empty()
+// remplacer queue<int> par un template pour accepter autre chose que des 
+
+void    test_queue_empty(queue<int> mq)
 {
 	std::cout << "########## EMPTY ##########\n";
-	queue<int> myqueue;
+	// queue<int> myqueue;
 	int sum (0);
 
-	for (int i=1;i<=10;i++) myqueue.push(i);
+	// for (int i=1;i<=10;i++) myqueue.push(i);
 
-	while (!myqueue.empty())
+	while (!mq.empty())
 	{
-		sum += myqueue.front();
-		myqueue.pop();
+		sum += mq.front();
+		mq.pop();
 	}
 
 	std::cout << "total: " << sum << '\n';
 }
 
-void	test_queue_size()
+void	test_queue_size(queue<int> mq)
 {
 	std::cout << "########## SIZE ##########\n";
 
-	queue<int> myints;
-	std::cout << "0. size: " << myints.size() << '\n';
+	// queue<int> myints;
+	std::cout << "0. size: " << mq.size() << '\n';
 
-	for (int i=0; i<5; i++) myints.push(i);
-	std::cout << "1. size: " << myints.size() << '\n';
+	for (int i=0; i<5; i++) mq.push(i);
+	std::cout << "1. size: " << mq.size() << '\n';
 
-	myints.pop();
-	std::cout << "2. size: " << myints.size() << '\n';
+	mq.pop();
+	std::cout << "2. size: " << mq.size() << '\n';
 }
 
-void	test_queue_front()
+void	test_queue_front(queue<int> mq)
 {
 	std::cout << "########## FRONT ##########\n";
 
-	queue<int> myqueue;
+	// queue<int> myqueue;
 
-	myqueue.push(10);
-	myqueue.push(20);
+	mq.push(10);
+	mq.push(20);
 
-	myqueue.front() -= 5;
+	mq.front() -= 5;
 
-	std::cout << "myqueue.front() is now " << myqueue.front() << '\n';
+	std::cout << "mq.front() is now " << mq.front() << '\n';
 }
 
-void	test_queue_push()
+void	test_queue_push(queue<int> mq)
 {
 	std::cout << "########## PUSH ##########\n";
 
-	queue<int> myqueue;
+	// queue<int> myqueue;
 
-	for (int i=0; i<5; ++i) myqueue.push(i);
+	// for (int i=0; i<5; ++i) myqueue.push(i);
 
 	std::cout << "Popping out elements...";
-	while (!myqueue.empty())
+	while (!mq.empty())
 	{
-		std::cout << ' ' << myqueue.front();
-		myqueue.pop();
+		std::cout << ' ' << mq.front();
+		mq.pop();
 	}
 	std::cout << '\n';
 }
 
-void	test_queue_pop()
+void	test_queue_pop(queue<int> mq)
 {
 	std::cout << "########## POP ##########\n";
 	
-	queue<int> myqueue;
+	// queue<int> myqueue;
 
-	for (int i=0; i<5; ++i) myqueue.push(i);
+	// for (int i=0; i<5; ++i) myqueue.push(i);
 
 	std::cout << "Popping out elements...";
-	while (!myqueue.empty())
+	while (!mq.empty())
 	{
-		std::cout << ' ' << myqueue.front();
-		myqueue.pop();
+		std::cout << ' ' << mq.front();
+		mq.pop();
 	}
 	std::cout << '\n';
 
@@ -97,14 +99,17 @@ void	main_queue()
 
 	std::cout << "########################### QUEUE ################################" << std::endl;
 
-	test_queue_empty();
+	queue<int> myqueue;
+
+	for (int i=0; i<5; ++i) myqueue.push(i);
+	test_queue_empty(myqueue);
 	std::cout << std::endl;
-	test_queue_size();
+	test_queue_size(myqueue);
 	std::cout << std::endl;
-	test_queue_front();
+	test_queue_front(myqueue);
 	std::cout << std::endl;
-	test_queue_push();
+	test_queue_push(myqueue);
 	std::cout << std::endl;
-	test_queue_pop();
+	test_queue_pop(myqueue);
 	std::cout << std::endl;
 }
