@@ -22,7 +22,7 @@
 #include "main_set.cpp"
 #include "main_deque.cpp"
 #include "main_queue.cpp"
-#include "main_pqueue.cpp"
+// #include "main_pqueue.cpp" // ne compile pas, a revoir
 #include <stack>
 #include <vector>
 #include <map>
@@ -48,7 +48,8 @@ int main(int ac, char *av[])
 	if (ac != 1)
 		return (1);
 	// main_queue();
-	main_pqueue();
+	main_list();
+	// main_pqueue();
 	// main_deque();
 	// main_stack();
 	// main_vector();

@@ -1,9 +1,11 @@
 #include <iostream>
 #include <string>
 #include <deque>
+#include <list> 
 #include "includes/queue.hpp"
 #include "includes/priority_queue.hpp"
 #include <queue>
+#include <vector>
 
 #ifndef STD
 # define NAMESPACE ft
@@ -131,3 +133,24 @@ void	main_pqueue()
 	test_pqueue_pop(mypqueue);
 	std::cout << std::endl;
 }
+
+
+// int main_pqueue ()
+// {
+//   std::priority_queue<int> pq1;
+//     pq1.push(5);
+//     std::cout << "pq1.size() = " << pq1.size() << '\n';
+ 
+//     std::priority_queue<int> pq2 (pq1);
+//     std::cout << "pq2.size() = " << pq2.size() << '\n';
+ 
+//     std::vector<int> vec (2, 5);
+//     std::priority_queue<int> pq3 (std::less<int>(), vec);
+//     std::cout << "pq3.size() = " << pq3.size() << '\n';
+ 
+//     for (std::cout << "pq3 : "; !pq3.empty(); pq3.pop())
+//         std::cout << pq3.top() << ' ';
+//     std::cout << '\n';
+
+// 	return (0);
+// }
