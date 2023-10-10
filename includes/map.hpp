@@ -22,8 +22,7 @@ namespace ft
     template < class Key,                                     // map::key_type, Type of the keys. Each element in a map is uniquely identified by its key value.
         	class T,                                       // map::mapped_type, Type of the mapped value. Each element in a map stores some data as its mapped value.
         	class Compare = std::less<Key>,                     // map::key_compare, A binary predicate that takes two element keys as arguments and returns a bool
-        	class Allocator = std::allocator<ft::pair<const Key,T> >    // map::allocator_type, Type of the allocator object used to define the storage allocation model.
-        	>
+        	class Allocator = std::allocator<ft::pair<const Key,T> > >   // map::allocator_type, Type of the allocator object used to define the storage allocation model.
 
     class map
 	{
