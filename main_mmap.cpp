@@ -22,18 +22,33 @@ struct classcomp_mmap
 
 int main_mmap ()
 {
- 
+  multimap<char,int> first;
+
+  first.insert(ft::pair<char,int>('a',10));
+  first.insert(ft::pair<char,int>('b',15));
+  first.insert(ft::pair<char,int>('b',20));
+  first.insert(ft::pair<char,int>('c',25));
+
+  multimap<char,int> second (first.begin(),first.end());
+
+  multimap<char,int> third (second);
+
+  multimap<char,int,classcomp> fourth;                 // class as Compare
+
+  bool(*fn_pt)(char,char) = fncomp;
+  multimap<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as comp
+
     // initialize container
     multimap<int, int> mp;
-	multimap<int, int>::iterator itr = mp.begin();
  
     // insert elements in random order
-    mp.insert( 2, 30 );
-    mp.insert( 1, 40 );
-    mp.insert( 3, 60 );
-    mp.insert( 2, 20 );
-    mp.insert( 5, 50 );
+    mp.insert(ft::pair<int,int>( 2, 30 ));
+    mp.insert(ft::pair<int,int>( 1, 40 ));
+    mp.insert(ft::pair<int,int>( 3, 60 ));
+    mp.insert(ft::pair<int,int>( 2, 20 ));
+    mp.insert(ft::pair<int,int>( 5, 50 ));
  
+	multimap<int, int>::iterator itr = mp.begin();
     // prints the elements
     std::cout << "KEY\tELEMENT\n";
     for (; itr != mp.end(); ++itr) 

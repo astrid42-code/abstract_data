@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "iterator_traits.hpp"
-#include "rbt_mmap.hpp"
+#include "rbt.hpp"
 #include "pair.hpp"
 #include "make_pair.hpp"
 #include "bi_directional_it.hpp"
@@ -184,11 +184,11 @@ namespace ft
 			{
 				return (_rbt.getMaxsize());
 			}
-
+PB map et mmap en comparaison a la compil (meme results MAIS difference dans le 1er insert avec le return ft::pair?)
 			// modifiers:
 			ft::pair<iterator, bool> insert(const value_type& x)
 			{
-				ft::pair<iterator, bool> res = _rbt.add_node_mmap(x);
+				ft::pair<iterator, bool> res = _rbt.add_node(x);
 				return res;
 			}
 
