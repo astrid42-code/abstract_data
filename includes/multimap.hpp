@@ -184,7 +184,7 @@ namespace ft
 			{
 				return (_rbt.getMaxsize());
 			}
-PB map et mmap en comparaison a la compil (meme results MAIS difference dans le 1er insert avec le return ft::pair?)
+// PB map et mmap en comparaison a la compil (meme results MAIS difference dans le 1er insert avec le return ft::pair?)
 			// modifiers:
 			ft::pair<iterator, bool> insert(const value_type& x)
 			{
