@@ -9,7 +9,7 @@
 
 using namespace NAMESPACE;
 
-void	main_vector()
+void	main_list()
 {
 	std::cout << "########################### LIST ################################" << std::endl;
 	list<int> test(15, 10);

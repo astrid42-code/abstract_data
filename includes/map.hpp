@@ -103,8 +103,7 @@ namespace ft
 				clear();
 			}
 
-			map<Key,T,Compare,Allocator>&
-			operator=(const map<Key,T,Compare,Allocator>& x)
+			map<Key,T,Compare,Allocator>& operator=(const map<Key,T,Compare,Allocator>& x)
 			{
 				_alloc = x._alloc;
 				_node_alloc = x._node_alloc;

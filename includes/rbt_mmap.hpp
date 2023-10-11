@@ -1,5 +1,5 @@
-#ifndef RBT_HPP
-#define RBT_HPP
+#ifndef RBT_MMAP_HPP
+#define RBT_MMAP_HPP
 
 #include <iostream>
 #include "node.hpp"
@@ -13,7 +13,7 @@
 namespace ft
 {
 	template < class Type, class Cmp, class node = node<Type>, class AllocNode = std::allocator<node> >
-	class rbt
+	class rbt_mmap
 	{
 		public:
 			typedef Type    																value_type;
@@ -39,18 +39,18 @@ namespace ft
 		public:
 			// constructors, destructor
 
-			rbt() : _root(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) { }
+			rbt_mmap() : _root(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) { }
 
-			rbt(const rbt &x){
+			rbt_mmap(const rbt_mmap &x){
 				_root = x._root;
 				_cmp = x._cmp;
 				_alloc_rbt = x._alloc_rbt;
 				_size = x._size;
 			}
 
-			~rbt(){	}
+			~rbt_mmap(){	}
 
-			rbt & operator=(const rbt &x)
+			rbt_mmap & operator=(const rbt_mmap &x)
 			{
 				_cmp = x._cmp;
 				_alloc_rbt = x._alloc_rbt;
@@ -240,7 +240,7 @@ namespace ft
 				return (_node);
 			}
 
-			// add_node == insert a new node in a map
+			// add_node == insert a new node
 			ft::pair<iterator, bool>	add_node(const Type &p)
 			{
 
@@ -266,10 +266,21 @@ namespace ft
 					{
 						tmp = tmp->right_child;
 					}
-					else
-					{
-						return (ft::make_pair<iterator, bool>(iterator(tmp, NULL), false));
-					}
+					// else
+					// {
+					// 	tmp = _alloc_rbt.allocate(1);
+					// 	_alloc_rbt.construct(tmp, node(p));
+					// 	tmp->color = RED;
+					// 	tmp->parent = tmp_parent;
+					// 	if (value_compare(tmp_parent->pair, tmp->pair))
+					// 		tmp_parent->right_child = tmp;
+					// 	else
+					// 		tmp_parent->left_child = tmp;
+					// 	_size++;
+					// 	insert_fixup(tmp);
+
+					// 	return (ft::make_pair<iterator, bool>(iterator(tmp, NULL), true));
+					// }
 				}
 				tmp = _alloc_rbt.allocate(1);
 				_alloc_rbt.construct(tmp, node(p));
@@ -285,48 +296,6 @@ namespace ft
 				return (ft::make_pair<iterator, bool>(iterator(tmp, NULL), true));
 			}
 
-			// insert a new node in a multimap
-			ft::pair<iterator, bool>	add_node_mmap(const Type &p)
-			{
-
-				if (!_root){
-					_root = _alloc_rbt.allocate(1);
-					_alloc_rbt.construct(_root, node(p));
-					_root->color = BLACK;
-					_root->parent = NULL;
-					_size++;
-					return (ft::make_pair<iterator, bool>(iterator(_root, NULL), true));
-				}
-				node_ptr	tmp = _root;
-				node_ptr	tmp_parent = NULL;
-
-				while (tmp)
-				{
-					tmp_parent = tmp;
-					if (value_compare(p, tmp->pair))
-					{
-						tmp = tmp->left_child;
-					}
-					else if (value_compare(tmp->pair, p))
-					{
-						tmp = tmp->right_child;
-					}
-					else
-						break;
-				}
-				tmp = _alloc_rbt.allocate(1);
-				_alloc_rbt.construct(tmp, node(p));
-				tmp->color = RED;
-				tmp->parent = tmp_parent;
-				if (value_compare(tmp_parent->pair, tmp->pair))
-					tmp_parent->right_child = tmp;
-				else
-					tmp_parent->left_child = tmp;
-				_size++;
-				insert_fixup(tmp);
-
-				return (ft::make_pair<iterator, bool>(iterator(tmp, NULL), true));
-			}
 
 			// // insertion et equilibre
 
@@ -636,7 +605,7 @@ namespace ft
 				x->color = BLACK;
 			}
 
-			void	swap(rbt & x)
+			void	swap(rbt_mmap & x)
 			{
 				node_ptr tmp_root = x._root;
 				key_cmp tmp_cmp = x._cmp;
