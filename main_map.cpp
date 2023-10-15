@@ -414,5 +414,5 @@ void	main_map()
 	std::cout << std::endl;
 
 	fourth.~map();
-	std::cout << "hello" << std::endl;
+	std::cout << std::endl;
 }

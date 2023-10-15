@@ -286,7 +286,7 @@ namespace ft
 			}
 
 			// insert a new node in a multimap
-			ft::pair<iterator, bool>	add_node_mmap(const Type &p)
+			iterator	add_node_mmap(const Type &p)
 			{
 
 				if (!_root){
@@ -295,7 +295,7 @@ namespace ft
 					_root->color = BLACK;
 					_root->parent = NULL;
 					_size++;
-					return (ft::make_pair<iterator, bool>(iterator(_root, NULL), true));
+					return (iterator(_root, NULL));
 				}
 				node_ptr	tmp = _root;
 				node_ptr	tmp_parent = NULL;
@@ -325,7 +325,7 @@ namespace ft
 				_size++;
 				insert_fixup(tmp);
 
-				return (ft::make_pair<iterator, bool>(iterator(tmp, NULL), true));
+				return (iterator(tmp, NULL));
 			}
 
 			// // insertion et equilibre

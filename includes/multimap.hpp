@@ -186,16 +186,18 @@ namespace ft
 			}
 // PB map et mmap en comparaison a la compil (meme results MAIS difference dans le 1er insert avec le return ft::pair?)
 			// modifiers:
-			ft::pair<iterator, bool> insert(const value_type& x)
+			// ft::pair<iterator, bool> insert(const value_type& x)
+			iterator insert(const value_type& x)
 			{
-				ft::pair<iterator, bool> res = _rbt.add_node(x);
-				return res;
+				// ft::pair<iterator, bool> res = _rbt.add_node(x);
+				// return res;
+				return (_rbt.add_node_mmap(x));
 			}
 
 			iterator insert(iterator position, const value_type& x)
 			{
 				(void) position;
-				return (insert(x).first);
+				return (insert(x));
 			}
 
 			template <class InputIterator>
