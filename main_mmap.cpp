@@ -66,21 +66,27 @@ int main_mmap ()
 	it=mymultimap.insert ( pair<char,int>('b',75) );
 
 	// second insert function version (with hint position):
-	mymultimap.insert (it, pair<char,int>('c',300));  // max efficiency inserting
+	// mymultimap.insert (it, pair<char,int>('c',300));  // max efficiency inserting 
 	mymultimap.insert (it, pair<char,int>('z',400));  // no max efficiency inserting
 
-	// // third insert function version (range insertion):
-	// multimap<char,int> anothermultimap;
-	// anothermultimap.insert(mymultimap.begin(),mymultimap.find('c'));
+	// third insert function version (range insertion):
+	multimap<char,int> anothermultimap;
+	anothermultimap.insert(mymultimap.begin(),mymultimap.find('c'));
 
 	// showing contents:
 	std::cout << "mymultimap contains:\n";
 	for (it=mymultimap.begin(); it!=mymultimap.end(); ++it)
 		std::cout << (*it).first << " => " << (*it).second << '\n';
 
-	// std::cout << "anothermultimap contains:\n";
-	// for (it=anothermultimap.begin(); it!=anothermultimap.end(); ++it)
-	// 	std::cout << (*it).first << " => " << (*it).second << '\n';
+	std::cout << "anothermultimap contains:\n";
+	for (it=anothermultimap.begin(); it!=anothermultimap.end(); ++it)
+		std::cout << (*it).first << " => " << (*it).second << '\n';
 
 	return 0;
 }
+
+// Pbs a regler :
+// insert du c, 300 ne se fait pas, pk? si on enleve le c, 30, plus de souci (donc pb avec le max efficiency inserting)
+// leak du a un pb de clear du rbt?
+// insert 3 a regler pour compiler > ok mais difference au resultat dans l'ordre ou sont donnes les deux z 
+// > imprimer le rbt pour voir > pb commentappeler la methode?(getter le rbt (mais comment?) puis faire print_prefix(???, 0)

@@ -384,6 +384,7 @@ void	main_map()
 	first['c']=50;
 	first['d']=70;
 	std::cout << "Default constructor : OK " << std::endl;
+
 	map<char,int> second (first.begin(),first.end());
 	std::cout << "Range constructor : OK " << std::endl; 
 
@@ -397,6 +398,7 @@ void	main_map()
 	third = second;
 	std::cout << "Overload operator = : OK" << std::endl;
 	std::cout << std::endl;
+	
 
 	test_capacity_map();
 	std::cout << std::endl;

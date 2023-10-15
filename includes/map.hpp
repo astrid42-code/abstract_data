@@ -333,31 +333,30 @@ namespace ft
 			}
 
 			// Returns the pair, (lower_bound(x), upper_bound(x)).
-			pair<iterator,iterator>
-			equal_range(const key_type& x)
+			pair<iterator,iterator>	equal_range(const key_type& x)
 			{
 				return (ft::make_pair(lower_bound(x), upper_bound(x)));
 			}
 
 			// Returns the pair, (lower_bound(x), upper_bound(x)).
-			pair<const_iterator,const_iterator>
-			equal_range(const key_type& x) const
+			pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
 			{
 				return (ft::make_pair(lower_bound(x), upper_bound(x)));
 			}
 
-			size_t	get_rbtsize() const
-			{
-				return (_rbt.getSize());
-			}
+			private:
+				size_t	get_rbtsize() const
+				{
+					return (_rbt.getSize());
+				}
+
 
 	};
 
 	// Returns true if all elements in x are element-wise equal to all elements in y,
 	//  using (T::operator==). Otherwise it returns false.
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator==(const map<Key,T,Compare,Allocator>& x,
-	const map<Key,T,Compare,Allocator>& y)
+	bool operator==(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 	{
 		if (x.get_rbtsize() != y.get_rbtsize())
 			return false;
@@ -366,36 +365,31 @@ namespace ft
 
 	// Returns true if x is lexicographically less than y. Otherwise, it returns false.
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator< (const map<Key,T,Compare,Allocator>& x,
-	const map<Key,T,Compare,Allocator>& y)
+	bool operator< (const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 	{
 		return (ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end()));
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator!=(const map<Key,T,Compare,Allocator>& x,
-	const map<Key,T,Compare,Allocator>& y)
+	bool operator!=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 	{
 		return !(x == y);
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator> (const map<Key,T,Compare,Allocator>& x,
-	const map<Key,T,Compare,Allocator>& y)
+	bool operator> (const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 	{
 		return (y < x); // equivalent de !(x < y)
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator>=(const map<Key,T,Compare,Allocator>& x,
-	const map<Key,T,Compare,Allocator>& y)
+	bool operator>=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 	{
 		return !(x < y); // equivalent de x <= y
 	}
 
 	template <class Key, class T, class Compare, class Allocator>
-	bool operator<=(const map<Key,T,Compare,Allocator>& x,
-	const map<Key,T,Compare,Allocator>& y)
+	bool operator<=(const map<Key,T,Compare,Allocator>& x, const map<Key,T,Compare,Allocator>& y)
 	{
 		return !(y < x);
 	}

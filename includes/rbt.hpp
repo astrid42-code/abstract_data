@@ -36,6 +36,26 @@ namespace ft
 			AllocNode	_alloc_rbt;
 			size_t		_size;
 
+			// print rbt fct 
+
+			void    print_prefix( node_ptr cur, int level ) const
+			{
+					std::cout << std::string(2 * level, ' ');
+					if (!cur)
+							std::cout << "NULL (B)" << std::endl;
+					else
+					{
+							std::cout << cur->pair.first << "(";
+							if (cur->color == RED)
+									std::cout << "R)" << std::endl;
+							else
+									std::cout << "B)" << std::endl;
+							level += 1;
+							print_prefix(cur->left_child, level);
+							print_prefix(cur->right_child, level);
+					}
+			}
+			
 		public:
 			// constructors, destructor
 
@@ -66,25 +86,6 @@ namespace ft
 				return (&_root);
 			}
 
-			// print rbt fct 
-
-			void    print_prefix( node_ptr cur, int level ) const
-			{
-					std::cout << std::string(2 * level, ' ');
-					if (!cur)
-							std::cout << "NULL (B)" << std::endl;
-					else
-					{
-							std::cout << cur->pair.first << "(";
-							if (cur->color == RED)
-									std::cout << "R)" << std::endl;
-							else
-									std::cout << "B)" << std::endl;
-							level += 1;
-							print_prefix(cur->left_child, level);
-							print_prefix(cur->right_child, level);
-					}
-			}
 
 			// setters
 

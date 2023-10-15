@@ -207,29 +207,116 @@ namespace ft
 					insert(*first);
 			}
 
-			void erase(iterator position);
-			size_type erase(const key_type& x);
-			void erase(iterator first, iterator last);
-			void swap(multimap<K,T,Compare,Allocator>&);
+			void erase(iterator position)
+			{
+				if (_rbt.erase(position->first) == 0)
+					return;
+			}
+
+			size_type erase(const key_type& x)
+			{
+				size_type res = _rbt.erase(x);
+
+				if (res == 0)
+					return (0);
+				return (1);
+			}
+
+			void erase(iterator first, iterator last)
+			{
+				iterator	res;
+				
+				for (; first != last; )
+				{
+					res = first;
+					first++;
+					_rbt.erase(res->first);
+				}
+			}
+
+			void swap(multimap<K,T,Compare,Allocator>& x)
+			{
+				size_type	tmp_size = x._size;
+				allocator_type	tmp_alloc = x._alloc;
+				node_alloc	tmp_node_alloc = x._node_alloc;
+				key_compare	tmp_key_comp = x._key_comp;
+
+				x._size =_size;
+				x._alloc = _alloc;
+				x._node_alloc = _node_alloc;
+				x._key_comp = _key_comp;
+
+				_size = tmp_size;
+				_alloc = tmp_alloc;
+				_node_alloc = tmp_node_alloc;
+				_key_comp = tmp_key_comp;
+				_rbt.swap(x._rbt);
+			}
+
 			void clear()
 			{
 				_rbt.clear();
 			}
 
 			// observers:
-			key_compare key_comp() const;
-			value_compare value_comp() const;
+			key_compare key_comp() const
+			{
+				return (_key_comp);
+			}
+
+			value_compare value_comp() const
+			{
+				return value_compare(_key_comp);
+			}
 
 			// map operations:
-			iterator find(const key_type& x);
-			const_iterator find(const key_type& x) const;
-			size_type count(const key_type& x) const;
-			iterator lower_bound(const key_type& x);
-			const_iterator lower_bound(const key_type& x) const;
-			iterator upper_bound(const key_type& x);
-			const_iterator upper_bound(const key_type& x) const;
-			pair<iterator,iterator>	equal_range(const key_type& x);
-			pair<const_iterator,const_iterator>	equal_range(const key_type& x) const;
+			iterator find(const key_type& x)
+			{
+				return (_rbt.find(x));
+			}
+
+			const_iterator find(const key_type& x) const
+			{
+				return (const_iterator(_rbt.find(x)));
+			}
+
+			size_type count(const key_type& x) const
+			{
+				if (_rbt.find(x) != _rbt.end())
+					return (1);
+				return (0);
+			}
+
+			iterator lower_bound(const key_type& x)
+			{
+				return (_rbt.lower_bound(x));
+			}
+			
+			const_iterator lower_bound(const key_type& x) const
+			{
+				return (_rbt.const_lower_bound(x));
+			}
+
+			iterator upper_bound(const key_type& x)
+			{
+				return (_rbt.upper_bound(x));
+			}
+
+			const_iterator upper_bound(const key_type& x) const
+			{
+				return (_rbt.upper_bound(x));
+			}
+
+			pair<iterator,iterator>	equal_range(const key_type& x)
+			{
+				return (ft::make_pair(lower_bound(x), upper_bound(x)));
+			}
+
+			pair<const_iterator,const_iterator>	equal_range(const key_type& x) const
+			{
+				return (ft::make_pair(lower_bound(x), upper_bound(x)));
+			}
+			
 		};
 		
 			template <class K, class T, class Compare, class Allocator>
