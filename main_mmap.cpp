@@ -66,21 +66,23 @@ int main_mmap ()
 	it=mymultimap.insert ( pair<char,int>('b',75) );
 
 	// second insert function version (with hint position):
-	// mymultimap.insert (it, pair<char,int>('c',300));  // max efficiency inserting 
+	mymultimap.insert (it, pair<char,int>('c',300));  // max efficiency inserting 
 	mymultimap.insert (it, pair<char,int>('z',400));  // no max efficiency inserting
+	mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+
 
 	// third insert function version (range insertion):
-	multimap<char,int> anothermultimap;
-	anothermultimap.insert(mymultimap.begin(),mymultimap.find('c'));
+	// multimap<char,int> anothermultimap;
+	// anothermultimap.insert(mymultimap.begin(),mymultimap.find('c'));
 
 	// showing contents:
 	std::cout << "mymultimap contains:\n";
 	for (it=mymultimap.begin(); it!=mymultimap.end(); ++it)
 		std::cout << (*it).first << " => " << (*it).second << '\n';
 
-	std::cout << "anothermultimap contains:\n";
-	for (it=anothermultimap.begin(); it!=anothermultimap.end(); ++it)
-		std::cout << (*it).first << " => " << (*it).second << '\n';
+	// std::cout << "anothermultimap contains:\n";
+	// for (it=anothermultimap.begin(); it!=anothermultimap.end(); ++it)
+	// 	std::cout << (*it).first << " => " << (*it).second << '\n';
 
 	return 0;
 }

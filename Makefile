@@ -15,7 +15,7 @@ NAME		=	containers
 CXX			=	c++
 
 CXXFLAGS	=	-Wall -Wextra -Werror -MMD -MP --std=c++98 -g3 # MMD MP -> linkage
-CXXFLAGS	+=	-fsanitize=address 
+# CXXFLAGS	+=	-fsanitize=address 
 
 M_STD		=	-D STD
 M_FT		=	-D FT

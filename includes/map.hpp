@@ -74,8 +74,19 @@ namespace ft
 				node_alloc							_node_alloc;
 				key_compare							_key_comp;
 				rbt<value_type, key_compare>		_rbt;
+			
+				size_t	get_rbtsize() const
+				{
+					return (_rbt.getSize());
+				}
+
+			
 
 			public:
+				node_ptr get_rbt() const
+				{
+					return (_rbt.getRoot());
+				}
 
 			// 23.3.1.1 construct/copy/destroy:
 
@@ -344,11 +355,6 @@ namespace ft
 				return (ft::make_pair(lower_bound(x), upper_bound(x)));
 			}
 
-			private:
-				size_t	get_rbtsize() const
-				{
-					return (_rbt.getSize());
-				}
 
 
 	};

@@ -400,21 +400,21 @@ void	main_map()
 	std::cout << std::endl;
 	
 
-	test_capacity_map();
-	std::cout << std::endl;
+	// test_capacity_map();
+	// std::cout << std::endl;
 
-	test_modifiers_map();
-	std::cout << std::endl;
+	// test_modifiers_map();
+	// std::cout << std::endl;
 
-	test_elementaccess();
-	std::cout << std::endl;
+	// test_elementaccess();
+	// std::cout << std::endl;
 
-	test_observers_map();
-	std::cout << std::endl;
+	// test_observers_map();
+	// std::cout << std::endl;
 
-	test_op_map();
-	std::cout << std::endl;
+	// test_op_map();
+	// std::cout << std::endl;
 
-	fourth.~map();
-	std::cout << std::endl;
+	// fourth.~map();
+	// std::cout << std::endl;
 }

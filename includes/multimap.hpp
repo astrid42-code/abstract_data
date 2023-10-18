@@ -123,6 +123,11 @@ namespace ft
 				return (*this);
 			}
 
+rbt<value_type, key_compare> get_rbt() const
+{
+	return (_rbt);
+}
+
 			allocator_type get_allocator() const
 			{
 				return (_alloc);
@@ -189,8 +194,7 @@ namespace ft
 			// ft::pair<iterator, bool> insert(const value_type& x)
 			iterator insert(const value_type& x)
 			{
-				// ft::pair<iterator, bool> res = _rbt.add_node(x);
-				// return res;
+				// std::cout << "couc" << std::endl;
 				return (_rbt.add_node_mmap(x));
 			}
 

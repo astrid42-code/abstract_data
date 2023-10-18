@@ -36,8 +36,11 @@ namespace ft
 			AllocNode	_alloc_rbt;
 			size_t		_size;
 
-			// print rbt fct 
+			// protected:
 
+			
+		public:
+			// // print rbt fct 
 			void    print_prefix( node_ptr cur, int level ) const
 			{
 					std::cout << std::string(2 * level, ' ');
@@ -45,7 +48,7 @@ namespace ft
 							std::cout << "NULL (B)" << std::endl;
 					else
 					{
-							std::cout << cur->pair.first << "(";
+							std::cout << cur->pair.first << "(" << cur->pair.second;
 							if (cur->color == RED)
 									std::cout << "R)" << std::endl;
 							else
@@ -55,8 +58,6 @@ namespace ft
 							print_prefix(cur->right_child, level);
 					}
 			}
-			
-		public:
 			// constructors, destructor
 
 			rbt() : _root(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) { }
@@ -282,13 +283,18 @@ namespace ft
 					tmp_parent->left_child = tmp;
 				_size++;
 				insert_fixup(tmp);
-
 				return (ft::make_pair<iterator, bool>(iterator(tmp, NULL), true));
 			}
 
 			// insert a new node in a multimap
 			iterator	add_node_mmap(const Type &p)
 			{
+				// doit-on faire un node ou le second de la paire serait un vector
+				// et si une cle existe deja, on append le vector?
+				// > a priori pas encore ca, car a l'affichage final il faudrait afficher les nodes de meme cles seprarement
+				// ou je fais un vector de mes nodes directement ?
+				// un node est un vector qui a une key unique (ex : z) et ensuite plsrs values possibles (une par array du coup)
+				
 
 				if (!_root){
 					_root = _alloc_rbt.allocate(1);
@@ -313,7 +319,19 @@ namespace ft
 						tmp = tmp->right_child;
 					}
 					else
-						break;
+					{
+						node_ptr newtmp = _alloc_rbt.allocate(1);
+						_alloc_rbt.construct(newtmp, node(p));
+						newtmp->color = tmp->color;
+						newtmp->parent = tmp_parent;
+
+						// std::cout << " tmp = " << tmp->pair.first << ", " << tmp->pair.second << std::endl;
+						// std::cout << " newtmp = " << newtmp->pair.first << ", " << newtmp->pair.second << std::endl;
+
+						return (iterator(newtmp, NULL));
+					}
+						// break; // a modifier : quand c egal, il faut rajouter la value a la cle deja existante
+						// pas creer un new node comme je le fais actuellement
 				}
 				tmp = _alloc_rbt.allocate(1);
 				_alloc_rbt.construct(tmp, node(p));
