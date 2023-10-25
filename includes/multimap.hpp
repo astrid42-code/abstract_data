@@ -194,7 +194,9 @@ rbt<value_type, key_compare> get_rbt() const
 			// ft::pair<iterator, bool> insert(const value_type& x)
 			iterator insert(const value_type& x)
 			{
-				// std::cout << "couc" << std::endl;
+
+				iterator it = _rbt.add_node_mmap(x);
+				std::cout << "node " << (*it).first << " value " << (*it).second << "adresse" << &it << std::endl;
 				return (_rbt.add_node_mmap(x));
 			}
 

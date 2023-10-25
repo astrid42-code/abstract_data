@@ -306,13 +306,24 @@ namespace ft
 				}
 				node_ptr	tmp = _root;
 				node_ptr	tmp_parent = NULL;
+				node_ptr	nil = NULL;
+				nil = create_nil_node();
 
 				while (tmp)
 				{
 					tmp_parent = tmp;
 					if (value_compare(p, tmp->pair))
 					{
-						tmp = tmp->left_child;
+						if (tmp->left_child)
+							tmp = tmp->left_child;
+						else
+						{
+							tmp->left_child = _alloc_rbt.allocate(1);
+							_alloc_rbt.construct(tmp->left_child, node(p));
+							tmp->left_child->color = tmp->color;
+							tmp->left_child->parent = tmp_parent;
+							// return (insert_newnode(tmp->left_child)); // a coder
+						}
 					}
 					else if (value_compare(tmp->pair, p))
 					{
@@ -330,8 +341,6 @@ namespace ft
 
 						return (iterator(newtmp, NULL));
 					}
-						// break; // a modifier : quand c egal, il faut rajouter la value a la cle deja existante
-						// pas creer un new node comme je le fais actuellement
 				}
 				tmp = _alloc_rbt.allocate(1);
 				_alloc_rbt.construct(tmp, node(p));
@@ -342,12 +351,24 @@ namespace ft
 				else
 					tmp_parent->left_child = tmp;
 				_size++;
-				insert_fixup(tmp);
+				// insert_fixup(tmp);
 
 				return (iterator(tmp, NULL));
 			}
 
-			// // insertion et equilibre
+			node_ptr	create_nil_node()
+			{
+				node_ptr nil_node = _alloc_rbt.allocate(1);
+				
+				nil_node->color = BLACK;
+				nil_node->left_child = nil_node;
+				nil_node->right_child = nil_node;
+				nil_node->parent = nil_node;
+
+    			return nil_node;
+			}
+
+			// insertion et equilibre
 
 			void left_rotate(node_ptr x)
 			{
