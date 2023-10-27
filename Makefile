@@ -25,6 +25,7 @@ RM			=	rm -f
 
 # SRCS		= 	main_deque.cpp
 SRCS		=	main.cpp
+# SRCS		=	main_mmap.cpp
 # SRCS		=	main_map.cpp
 # SRCS		=	main_vector.cpp
 # SRCS		=	main_stack.cpp

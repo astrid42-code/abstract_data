@@ -196,7 +196,7 @@ rbt<value_type, key_compare> get_rbt() const
 			{
 
 				iterator it = _rbt.add_node_mmap(x);
-				std::cout << "node " << (*it).first << " value " << (*it).second << " adresse" << &it << std::endl;
+				// std::cout << "node " << (*it).first << " value " << (*it).second << " adresse" << &it << std::endl;
 				return (_rbt.add_node_mmap(x));
 			}
 

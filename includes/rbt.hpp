@@ -12,6 +12,13 @@
 
 namespace ft
 {
+
+	enum status
+	{
+		UNUIQUE = true,
+		NOT_UNIQUE = false
+	};
+
 	template < class Type, class Cmp, class node = node<Type>, class AllocNode = std::allocator<node> >
 	class rbt
 	{
@@ -36,6 +43,7 @@ namespace ft
 			key_cmp		_cmp;
 			AllocNode	_alloc_rbt;
 			size_t		_size;
+			// status		unique_tree;
 
 			// protected:
 
@@ -61,7 +69,7 @@ namespace ft
 			}
 			// constructors, destructor
 
-			rbt() : _root(NULL), _nil(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) 
+			rbt() : _root(NULL), _nil(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) //, unique_tree(unique_tree) rbt(status unique_tree)???
 			{ 
 				_nil = create_nil_node();
 				// _root = _nil;
