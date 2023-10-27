@@ -32,6 +32,7 @@ namespace ft
 		private:
 
 			node_ptr	_root;
+			node_ptr	_nil;
 			key_cmp		_cmp;
 			AllocNode	_alloc_rbt;
 			size_t		_size;
@@ -60,10 +61,15 @@ namespace ft
 			}
 			// constructors, destructor
 
-			rbt() : _root(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) { }
+			rbt() : _root(NULL), _nil(NULL), _cmp(key_cmp()), _alloc_rbt(alloc_node()), _size(0) 
+			{ 
+				_nil = create_nil_node();
+				// _root = _nil;
+			}
 
 			rbt(const rbt &x){
 				_root = x._root;
+				_nil = x._nil;
 				_cmp = x._cmp;
 				_alloc_rbt = x._alloc_rbt;
 				_size = x._size;
@@ -287,14 +293,13 @@ namespace ft
 			}
 
 			// insert a new node in a multimap
-			iterator	add_node_mmap(const Type &p)
+			iterator	add_node_mmap(const value_type &p)
 			{
 				// doit-on faire un node ou le second de la paire serait un vector
 				// et si une cle existe deja, on append le vector?
 				// > a priori pas encore ca, car a l'affichage final il faudrait afficher les nodes de meme cles seprarement
 				// ou je fais un vector de mes nodes directement ?
 				// un node est un vector qui a une key unique (ex : z) et ensuite plsrs values possibles (une par array du coup)
-				
 
 				if (!_root){
 					_root = _alloc_rbt.allocate(1);
@@ -304,10 +309,11 @@ namespace ft
 					_size++;
 					return (iterator(_root, NULL));
 				}
+
 				node_ptr	tmp = _root;
 				node_ptr	tmp_parent = NULL;
-				node_ptr	nil = NULL;
-				nil = create_nil_node();
+				// node_ptr	nil = NULL;
+				// nil = create_nil_node();
 
 				while (tmp)
 				{
@@ -322,25 +328,52 @@ namespace ft
 							_alloc_rbt.construct(tmp->left_child, node(p));
 							tmp->left_child->color = tmp->color;
 							tmp->left_child->parent = tmp_parent;
-							// return (insert_newnode(tmp->left_child)); // a coder
+							return (insert_newnode_mmap(tmp->left_child)); // a coder
 						}
 					}
 					else if (value_compare(tmp->pair, p))
 					{
-						tmp = tmp->right_child;
+						if (tmp->right_child)
+							tmp = tmp->right_child;
+						else
+						{
+							tmp->right_child = _alloc_rbt.allocate(1);
+							_alloc_rbt.construct(tmp->right_child, node(p));
+							tmp->right_child->color = tmp->color;
+							tmp->right_child->parent = tmp_parent;
+							return (insert_newnode_mmap(tmp->right_child)); // a coder
+						}
 					}
 					else
 					{
-						node_ptr newtmp = _alloc_rbt.allocate(1);
-						_alloc_rbt.construct(newtmp, node(p));
-						newtmp->color = tmp->color;
-						newtmp->parent = tmp_parent;
-
-						// std::cout << " tmp = " << tmp->pair.first << ", " << tmp->pair.second << std::endl;
-						// std::cout << " newtmp = " << newtmp->pair.first << ", " << newtmp->pair.second << std::endl;
-
-						return (iterator(newtmp, NULL));
+						// std::cout << "ouais\n";
+						break;
+						// if (tmp->right_child)
+						// 	tmp = tmp->right_child;
+						// else
+						// {
+						// 	tmp->right_child = _alloc_rbt.allocate(1);
+						// 	_alloc_rbt.construct(tmp->right_child, node(p));
+						// 	tmp->right_child->color = tmp->color;
+						// 	tmp->right_child->parent = tmp_parent;
+						// 	return (insert_newnode_mmap(tmp->right_child));
+						// }
 					}
+					// else if (tmp->pair == p)
+					// {
+					// 	std::cout << "tmp = " << tmp->pair.first << " p =" ;
+					// 	std::cout << p.first << std::endl;
+					// 	node_ptr newtmp = _alloc_rbt.allocate(1);
+					// 	_alloc_rbt.construct(newtmp, node(p));
+					// 	newtmp->color = tmp->color;
+					// 	newtmp->parent = tmp_parent;
+
+					// 	// std::cout << " tmp = " << tmp->pair.first << ", " << tmp->pair.second << std::endl;
+					// 	std::cout << " newtmp = " << newtmp->pair.first << ", " << newtmp->pair.second << std::endl;
+					// 	_size++;
+					// 	return (insert_newnode_mmap(tmp->left_child));
+					// 	// return (iterator(newtmp, NULL));
+					// }
 				}
 				tmp = _alloc_rbt.allocate(1);
 				_alloc_rbt.construct(tmp, node(p));
@@ -351,9 +384,26 @@ namespace ft
 				else
 					tmp_parent->left_child = tmp;
 				_size++;
-				// insert_fixup(tmp);
+				insert_fixup(tmp);
 
 				return (iterator(tmp, NULL));
+			}
+
+			// void 	fix_mmap(node_ptr tmp)
+			// {
+				
+			// }
+
+			iterator	insert_newnode_mmap(node_ptr tmp)
+			{
+				// fix_mmap(tmp);
+
+				if (_nil->left_child ==  _nil)
+					_nil->left_child = tmp;
+				if (_nil->right_child == _nil)
+					_nil->right_child = tmp;
+				insert_fixup(tmp);
+				return iterator(tmp, NULL);
 			}
 
 			node_ptr	create_nil_node()
