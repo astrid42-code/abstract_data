@@ -203,6 +203,7 @@ namespace ft
 
 				while (_node->parent && _node->parent->color == RED)
 				{
+				std::cout << "fixup\n";
 					if (_node->parent == _node->parent->parent->left_child)
 					{
 						_parent = _node->parent->parent->right_child;
@@ -310,6 +311,7 @@ namespace ft
 				// un node est un vector qui a une key unique (ex : z) et ensuite plsrs values possibles (une par array du coup)
 
 				if (!_root){
+					// std::cout << "coucou1\n";
 					_root = _alloc_rbt.allocate(1);
 					_alloc_rbt.construct(_root, node(p));
 					_root->color = BLACK;
@@ -326,25 +328,38 @@ namespace ft
 				while (tmp)
 				{
 					tmp_parent = tmp;
+					// std::cout << "coucou2\n";
 					if (value_compare(p, tmp->pair))
 					{
+						// std::cout << "tmp3 " << tmp->pair.first << "\n";
 						if (tmp->left_child)
+						{
+							std::cout << "coucou3\n";
 							tmp = tmp->left_child;
+						}
 						else
 						{
+							std::cout << "coucou4\n";
 							tmp->left_child = _alloc_rbt.allocate(1);
 							_alloc_rbt.construct(tmp->left_child, node(p));
 							tmp->left_child->color = tmp->color;
 							tmp->left_child->parent = tmp_parent;
+							// std::cout << "tmpleft " << tmp->left_child->pair.first << "\n";
+							// std::cout << "tmp " << tmp->pair.first << "\n";
 							return (insert_newnode_mmap(tmp->left_child)); // a coder
 						}
 					}
 					else if (value_compare(tmp->pair, p))
 					{
+						// std::cout << "tmp4 " << tmp->pair.first << "\n";
 						if (tmp->right_child)
+						{
+							std::cout << "coucou5\n";
 							tmp = tmp->right_child;
+						}
 						else
 						{
+							std::cout << "coucou6\n";
 							tmp->right_child = _alloc_rbt.allocate(1);
 							_alloc_rbt.construct(tmp->right_child, node(p));
 							tmp->right_child->color = tmp->color;
@@ -354,7 +369,8 @@ namespace ft
 					}
 					else
 					{
-						// std::cout << "ouais\n";
+						
+						std::cout << "ouais\n";
 						break;
 						// if (tmp->right_child)
 						// 	tmp = tmp->right_child;
@@ -383,6 +399,7 @@ namespace ft
 					// 	// return (iterator(newtmp, NULL));
 					// }
 				}
+				// std::cout << "coucou6\n";
 				tmp = _alloc_rbt.allocate(1);
 				_alloc_rbt.construct(tmp, node(p));
 				tmp->color = RED;
@@ -397,19 +414,39 @@ namespace ft
 				return (iterator(tmp, NULL));
 			}
 
-			// void 	fix_mmap(node_ptr tmp)
-			// {
-				
-			// }
+			void 	fix_mmap(node_ptr tmp)
+			{
+				node_ptr other_tmp = tmp;
+				node_ptr nil_l = _nil->left_child;
+				node_ptr nil_r = _nil->right_child;
+
+				if ((_nil->left_child != _nil && (value_compare(other_tmp->pair, nil_l->pair))) || other_tmp->pair == nil_l->pair) 
+				{
+					nil_l = getBegin(other_tmp);
+				}
+				if ((_nil->right_child != _nil && (value_compare(other_tmp->pair, nil_l->pair))) || other_tmp->pair == nil_r->pair) // || value_compare()) > || KeyOfValue()(nodeNode->value) == KeyOfValue()(nilLeft->value))))
+				{
+					nil_l = getBegin(other_tmp);
+				}
+			}
 
 			iterator	insert_newnode_mmap(node_ptr tmp)
 			{
+				std::cout << "tmp " << tmp->pair.first << "\n";
+				std::cout << "nil " << _nil->pair.first << "\n";
 				// fix_mmap(tmp);
 
 				if (_nil->left_child ==  _nil)
+				{
+					std::cout << "coucou1\n";
 					_nil->left_child = tmp;
+
+				}
 				if (_nil->right_child == _nil)
+				{
+					std::cout << "coucou2\n";
 					_nil->right_child = tmp;
+				}
 				insert_fixup(tmp);
 				return iterator(tmp, NULL);
 			}
