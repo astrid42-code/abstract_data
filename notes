@@ -1,0 +1,4 @@
+insert multimap :
+ca vaudrait le coup de garder l insert de la map 
+et de creer un nouveau node qui devient enfant de la meme cle
+mais bien prevoir dans ce cas que si c egal il faut aussi avancer tq le node suivant n est pas nul 
