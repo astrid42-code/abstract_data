@@ -279,6 +279,8 @@ rbt<value_type, key_compare> get_rbt() const
 			// map operations:
 			iterator find(const key_type& x)
 			{
+				iterator it = _rbt.find(x);
+				std::cout << "it " << (*it).first << " " << (*it).second<< std::endl;
 				return (_rbt.find(x));
 			}
 

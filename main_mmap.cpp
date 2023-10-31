@@ -69,11 +69,14 @@ int main_mmap ()
 	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 
 	// second insert function version (with hint position):
-	mymultimap.insert (it, pair<char,int>('z',300));  // max efficiency inserting 
+	mymultimap.insert (it, pair<char,int>('c',300));  // max efficiency inserting 
 	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 	
 	
-	mymultimap.insert (it, pair<char,int>('z',400));  // no max efficiency inserting
+
+	mymultimap.insert (it, pair<char,int>('z',500));
+	mymultimap.insert (it, pair<char,int>('d',400));
+	mymultimap.insert (it, pair<char,int>('c',400));  // no max efficiency inserting
 	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 
 
@@ -87,13 +90,15 @@ int main_mmap ()
 
 
 	// third insert function version (range insertion):
-	// multimap<char,int> anothermultimap;
+	multimap<char,int> anothermultimap;
 	// anothermultimap.insert(mymultimap.begin(),mymultimap.find('c'));
+	// result ft/std != mais ok car cas undefined : cf point 1.2 de find (joachim discord le 31/10))
+	anothermultimap.insert(mymultimap.begin(),mymultimap.lower_bound('c'));
 
-	// std::cout << "anothermultimap contains:\n";
-	// for (it=anothermultimap.begin(); it!=anothermultimap.end(); ++it)
-	// 	std::cout << (*it).first << " => " << (*it).second << '\n';
-	// // anothermultimap.get_rbt().print_prefix(anothermultimap.get_rbt().getRoot(), 0);
+	std::cout << "anothermultimap contains:\n";
+	for (it=anothermultimap.begin(); it!=anothermultimap.end(); ++it)
+		std::cout << (*it).first << " => " << (*it).second << '\n';
+	// anothermultimap.get_rbt().print_prefix(anothermultimap.get_rbt().getRoot(), 0);
 
 
 
