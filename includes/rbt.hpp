@@ -336,29 +336,29 @@ namespace ft
 							{
 						
 								tmp = tmp->left_child;
-								std::cout << "tmp " << tmp->pair.first << " " << tmp->pair.second << "\n";
-								std::cout << "tmp->parent " << tmp->parent->pair.first<< " " << tmp->parent->pair.second << "\n"; 
-								std::cout << "tmp_parent " << tmp_parent->pair.first<< " " << tmp_parent->pair.second << "\n"; 
-								if (tmp->left_child)
-									std::cout << "tmp_child " << tmp->left_child->pair.first << " " << tmp->left_child->pair.second << "\n";
-				pb de parent!!
-				il faut arriver a tmp = parent (actuellement il garde le parent d'avant)
+								// std::cout << "tmp " << tmp->pair.first << " " << tmp->pair.second << "\n";
+								// std::cout << "tmp->parent " << tmp->parent->pair.first<< " " << tmp->parent->pair.second << "\n"; 
+								// std::cout << "tmp_parent " << tmp_parent->pair.first<< " " << tmp_parent->pair.second << "\n"; 
+								// if (tmp->left_child)
+								// 	std::cout << "tmp_child " << tmp->left_child->pair.first << " " << tmp->left_child->pair.second << "\n";
+				// pb de parent!!
+				// il faut arriver a tmp = parent (actuellement il garde le parent d'avant)
 							
 								node_ptr newtmp = tmp->left_child;
 								newtmp = _alloc_rbt.allocate(1);
 								_alloc_rbt.construct(newtmp, node(p));
 								newtmp->color = RED;
-								newtmp->parent = tmp_parent;
-								if (value_compare(tmp_parent->pair, newtmp->pair))
-									tmp_parent->right_child = newtmp;
+								newtmp->parent = tmp;
+								if (value_compare(tmp->pair, newtmp->pair))
+									tmp->right_child = newtmp;
 								else
-									tmp_parent->left_child = newtmp;
+									tmp->left_child = newtmp;
 								_size++;
-								std::cout << "newtmp " << newtmp->pair.first << " " << newtmp->pair.second << "\n";
-								std::cout << "newtmp->parent " << newtmp->parent->pair.first<< " " << newtmp->parent->pair.second << "\n"; 
-								std::cout << "newtmp_parent " << tmp_parent->pair.first<< " " << tmp_parent->pair.second << "\n"; 
-								if (newtmp->left_child)
-									std::cout << "newtmp_child " << newtmp->left_child->pair.first << " " << newtmp->left_child->pair.second << "\n";
+								// std::cout << "newtmp " << newtmp->pair.first << " " << newtmp->pair.second << "\n";
+								// std::cout << "newtmp->parent " << newtmp->parent->pair.first<< " " << newtmp->parent->pair.second << "\n"; 
+								// std::cout << "newtmp_parent " << tmp_parent->pair.first<< " " << tmp_parent->pair.second << "\n"; 
+								// if (newtmp->left_child)
+								// 	std::cout << "newtmp_child " << newtmp->left_child->pair.first << " " << newtmp->left_child->pair.second << "\n";
 								insert_fixup(newtmp);
 								return (iterator(newtmp, NULL));
 							}
