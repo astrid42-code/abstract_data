@@ -304,7 +304,14 @@ namespace ft
 			// insert a new node in a multimap
 			iterator	add_node_mmap(const value_type &p)
 			{
+				// doit-on faire un node ou le second de la paire serait un vector
+				// et si une cle existe deja, on append le vector?
+				// > a priori pas encore ca, car a l'affichage final il faudrait afficher les nodes de meme cles seprarement
+				// ou je fais un vector de mes nodes directement ?
+				// un node est un vector qui a une key unique (ex : z) et ensuite plsrs values possibles (une par array du coup)
+
 				if (!_root){
+					// std::cout << "coucou1\n";
 					_root = _alloc_rbt.allocate(1);
 					_alloc_rbt.construct(_root, node(p));
 					_root->color = BLACK;
@@ -312,78 +319,87 @@ namespace ft
 					_size++;
 					return (iterator(_root, NULL));
 				}
+
 				node_ptr	tmp = _root;
 				node_ptr	tmp_parent = NULL;
+				// node_ptr	nil = NULL;
+				// nil = create_nil_node();
 
 				while (tmp)
 				{
 					tmp_parent = tmp;
+					// std::cout << "coucou2\n";
 					if (value_compare(p, tmp->pair))
 					{
-						tmp = tmp->left_child;
+						// std::cout << "tmp3 " << tmp->pair.first << "\n";
+						if (tmp->left_child)
+						{
+							std::cout << "coucou3\n";
+							tmp = tmp->left_child;
+						}
+						else
+						{
+							std::cout << "coucou4\n";
+							tmp->left_child = _alloc_rbt.allocate(1);
+							_alloc_rbt.construct(tmp->left_child, node(p));
+							tmp->left_child->color = tmp->color;
+							tmp->left_child->parent = tmp_parent;
+							// std::cout << "tmpleft " << tmp->left_child->pair.first << "\n";
+							// std::cout << "tmp " << tmp->pair.first << "\n";
+							return (insert_newnode_mmap(tmp->left_child)); // a coder
+						}
 					}
 					else if (value_compare(tmp->pair, p))
 					{
-						tmp = tmp->right_child;
+						// std::cout << "tmp4 " << tmp->pair.first << "\n";
+						if (tmp->right_child)
+						{
+							std::cout << "coucou5\n";
+							tmp = tmp->right_child;
+						}
+						else
+						{
+							std::cout << "coucou6\n";
+							tmp->right_child = _alloc_rbt.allocate(1);
+							_alloc_rbt.construct(tmp->right_child, node(p));
+							tmp->right_child->color = tmp->color;
+							tmp->right_child->parent = tmp_parent;
+							return (insert_newnode_mmap(tmp->right_child)); // a coder
+						}
 					}
 					else
 					{
-						// s il y a plsrs nodes avec la meme cle, aller jusqu'au dernier
-						if (tmp->left_child)
-						{
-							// tq qu il y a des nodes avec la meme cle en left_child:
-							while (tmp && tmp->left_child && (tmp->pair.first == tmp->left_child->pair.first))
-							{
 						
-								tmp = tmp->left_child;
-								std::cout << "tmp " << tmp->pair.first << " " << tmp->pair.second << "\n";
-								std::cout << "tmp->parent " << tmp->parent->pair.first<< " " << tmp->parent->pair.second << "\n"; 
-								std::cout << "tmp_parent " << tmp_parent->pair.first<< " " << tmp_parent->pair.second << "\n"; 
-								if (tmp->left_child)
-									std::cout << "tmp_child " << tmp->left_child->pair.first << " " << tmp->left_child->pair.second << "\n";
-				pb de parent!!
-				il faut arriver a tmp = parent (actuellement il garde le parent d'avant)
-							
-								node_ptr newtmp = tmp->left_child;
-								newtmp = _alloc_rbt.allocate(1);
-								_alloc_rbt.construct(newtmp, node(p));
-								newtmp->color = RED;
-								newtmp->parent = tmp_parent;
-								if (value_compare(tmp_parent->pair, newtmp->pair))
-									tmp_parent->right_child = newtmp;
-								else
-									tmp_parent->left_child = newtmp;
-								_size++;
-								std::cout << "newtmp " << newtmp->pair.first << " " << newtmp->pair.second << "\n";
-								std::cout << "newtmp->parent " << newtmp->parent->pair.first<< " " << newtmp->parent->pair.second << "\n"; 
-								std::cout << "newtmp_parent " << tmp_parent->pair.first<< " " << tmp_parent->pair.second << "\n"; 
-								if (newtmp->left_child)
-									std::cout << "newtmp_child " << newtmp->left_child->pair.first << " " << newtmp->left_child->pair.second << "\n";
-								insert_fixup(newtmp);
-								return (iterator(newtmp, NULL));
-							}
-						}
-						// std::cout << "tmp " << tmp->pair.first << " " << tmp->pair.second << "\n";
-						// std::cout << "tmp_parent " << tmp->parent->pair.first<< " " << tmp->parent->pair.second << "\n"; 
-						// if (tmp->left_child)
-						// 	std::cout << "tmp_child " << tmp->left_child->pair.first << " " << tmp->left_child->pair.second << "\n";
-						
-						// creer un nouveau node
-						tmp = _alloc_rbt.allocate(1);
-						_alloc_rbt.construct(tmp, node(p));
-						tmp->color = RED;
-						tmp->parent = tmp_parent;
-						if (value_compare(tmp_parent->pair, tmp->pair))
-							tmp_parent->right_child = tmp;
-						else
-							tmp_parent->left_child = tmp;
-						_size++;
-						insert_fixup(tmp);
-						return (iterator(tmp, NULL));
-						// break;
+						std::cout << "ouais\n";
+						break;
+						// if (tmp->right_child)
+						// 	tmp = tmp->right_child;
+						// else
+						// {
+						// 	tmp->right_child = _alloc_rbt.allocate(1);
+						// 	_alloc_rbt.construct(tmp->right_child, node(p));
+						// 	tmp->right_child->color = tmp->color;
+						// 	tmp->right_child->parent = tmp_parent;
+						// 	return (insert_newnode_mmap(tmp->right_child));
+						// }
 					}
+					// else if (tmp->pair == p)
+					// {
+					// 	std::cout << "tmp = " << tmp->pair.first << " p =" ;
+					// 	std::cout << p.first << std::endl;
+					// 	node_ptr newtmp = _alloc_rbt.allocate(1);
+					// 	_alloc_rbt.construct(newtmp, node(p));
+					// 	newtmp->color = tmp->color;
+					// 	newtmp->parent = tmp_parent;
+
+					// 	// std::cout << " tmp = " << tmp->pair.first << ", " << tmp->pair.second << std::endl;
+					// 	std::cout << " newtmp = " << newtmp->pair.first << ", " << newtmp->pair.second << std::endl;
+					// 	_size++;
+					// 	return (insert_newnode_mmap(tmp->left_child));
+					// 	// return (iterator(newtmp, NULL));
+					// }
 				}
-				
+				// std::cout << "coucou6\n";
 				tmp = _alloc_rbt.allocate(1);
 				_alloc_rbt.construct(tmp, node(p));
 				tmp->color = RED;
@@ -394,6 +410,7 @@ namespace ft
 					tmp_parent->left_child = tmp;
 				_size++;
 				insert_fixup(tmp);
+
 				return (iterator(tmp, NULL));
 			}
 

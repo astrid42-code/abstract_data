@@ -62,19 +62,19 @@ int main_mmap ()
 
 	// first insert function version (single parameter):
 	mymultimap.insert ( pair<char,int>('a',100) );
-	mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 	mymultimap.insert ( pair<char,int>('z',150) );
-	mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 	it=mymultimap.insert ( pair<char,int>('b',75) );
-	mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 
 	// second insert function version (with hint position):
-	// mymultimap.insert (it, pair<char,int>('c',300));  // max efficiency inserting 
-	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	mymultimap.insert (it, pair<char,int>('z',300));  // max efficiency inserting 
+	mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 	
 	
-	// mymultimap.insert (it, pair<char,int>('z',400));  // no max efficiency inserting
-	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	mymultimap.insert (it, pair<char,int>('z',400));  // no max efficiency inserting
+	mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 
 
 
