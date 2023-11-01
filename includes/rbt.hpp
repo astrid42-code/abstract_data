@@ -137,6 +137,12 @@ namespace ft
 				return (iterator(tmp, NULL));
 			}
 
+			iterator	begin_mmap() const
+			{
+				node_ptr tmp = getRoot();
+				return (iterator(tmp, NULL));
+			}
+
 			const_iterator	const_begin() const
 			{
 				node_ptr tmp = getBegin(_root);
@@ -201,10 +207,16 @@ namespace ft
 			{
 				node_ptr	_parent = _node->parent;
 
+				std::cout << "fixup\n";
+				std::cout << " node = " << _node->pair.second << " " << _node->color << " parent = " << _parent->pair.second << " " << _parent->color << "\n";
+				if (_node->right_child)
+					std::cout << " child = " << _node->right_child->pair.second << " " << _node->right_child->color << "\n";
+				// PB  : quid quand parent est la root : ca veut dire qu on ne reequilibre jamais dans ces cas la??
+				// alors qu on devrait pouvoir (cf vizualiser)
+				
 				while (_node->parent && _node->parent->color == RED)
 				{
-				// std::cout << "fixup\n";
-					if (_node->parent == _node->parent->parent->left_child)
+					if (_node->parent->parent->left_child && _node->parent == _node->parent->parent->left_child)
 					{
 						_parent = _node->parent->parent->right_child;
 						if (_node->parent->parent->right_child && _parent->color == RED)
@@ -329,6 +341,7 @@ namespace ft
 					else
 					{
 						// s il y a plsrs nodes avec la meme cle, aller jusqu'au dernier
+								// std::cout << "coucou1\n";
 						if (tmp->left_child)
 						{
 							// tq qu il y a des nodes avec la meme cle en left_child:
@@ -336,6 +349,7 @@ namespace ft
 							{
 								if (tmp->pair.first == tmp->left_child->pair.first)
 								{
+									std::cout << "iech1 \n";
 									tmp = tmp->left_child;
 								
 									node_ptr newtmp = tmp->left_child;
@@ -343,7 +357,7 @@ namespace ft
 									_alloc_rbt.construct(newtmp, node(p));
 									newtmp->color = RED;
 									newtmp->parent = tmp;
-									tmp->left_child = newtmp;
+									tmp->right_child = newtmp;
 									_size++;
 									insert_fixup(newtmp);
 									return (iterator(newtmp, NULL));
@@ -351,17 +365,17 @@ namespace ft
 								}
 								else if (tmp->pair.first != tmp->left_child->pair.first)
 								{
-
+									std::cout << "iech2 \n";
 									tmp = tmp->left_child;								
 									node_ptr newtmp = tmp->left_child;
 									newtmp = _alloc_rbt.allocate(1);
 									_alloc_rbt.construct(newtmp, node(p));
 									newtmp->color = RED;
 									newtmp->parent = tmp;
-									if (value_compare(tmp->pair, newtmp->pair))
+									// if (value_compare(tmp->pair, newtmp->pair))
 										tmp->right_child = newtmp;
-									else
-										tmp->left_child = newtmp;
+									// else
+									// 	tmp->left_child = newtmp;
 									_size++;
 									insert_fixup(newtmp);
 									return (iterator(newtmp, NULL));
@@ -373,16 +387,16 @@ namespace ft
 						// std::cout << "tmp_parent " << tmp->parent->pair.first<< " " << tmp->parent->pair.second << "\n"; 
 						// if (tmp->left_child)
 						// 	std::cout << "tmp_child " << tmp->left_child->pair.first << " " << tmp->left_child->pair.second << "\n";
-						
+						std::cout << "iech3 \n";
 						// creer un nouveau node
 						tmp = _alloc_rbt.allocate(1);
 						_alloc_rbt.construct(tmp, node(p));
 						tmp->color = RED;
 						tmp->parent = tmp_parent;
-						if (value_compare(tmp_parent->pair, tmp->pair))
+						// if (value_compare(tmp_parent->pair, tmp->pair))
 							tmp_parent->right_child = tmp;
-						else
-							tmp_parent->left_child = tmp;
+						// else
+						// 	tmp_parent->left_child = tmp;
 						_size++;
 						insert_fixup(tmp);
 						return (iterator(tmp, NULL));
@@ -426,13 +440,13 @@ namespace ft
 
 				if (_nil->left_child ==  _nil)
 				{
-					std::cout << "coucou1\n";
+					// std::cout << "coucou1\n";
 					_nil->left_child = tmp;
 
 				}
 				if (_nil->right_child == _nil)
 				{
-					std::cout << "coucou2\n";
+					// std::cout << "coucou2\n";
 					_nil->right_child = tmp;
 				}
 				insert_fixup(tmp);
@@ -689,7 +703,10 @@ namespace ft
 					tmp_y->left_child->parent = tmp_y;
 					tmp_y->color = tmp_b->color;
 				}
-
+				// if (tmp_x)
+					// std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
+				// if (tmp_b)
+					// std::cout << " tmp = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
 				if (tmp_color == BLACK && tmp_x)
 					delete_rbt_fixup(tmp_x);
 

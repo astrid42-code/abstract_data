@@ -20,6 +20,36 @@ struct classcomp_mmap
 	{return lhs<rhs;}
 };
 
+void simple_tests()
+{
+	std::cout << "########## EMPTY ##########\n";
+
+	multimap<char,int> mymultimap;
+
+	mymultimap.insert (pair<char,int>('b',101));
+// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	mymultimap.insert (pair<char,int>('b',202));
+	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	mymultimap.insert (pair<char,int>('q',505));
+// std::cout << " begin = " << mymultimap.get_rbt().getBegin(mymultimap.get_rbt().getRoot())->pair.first << " " << mymultimap.get_rbt().getBegin(mymultimap.get_rbt().getRoot())->pair.second << "\n";
+// std::cout << " root = " << mymultimap.get_rbt().getRoot()->pair.first << " " << mymultimap.get_rbt().getRoot()->pair.second << "\n";
+	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+
+
+// pb dans insertion/fixup (b 202 devrait devenir la root et non un left_child )
+
+	while (!mymultimap.empty())
+	{
+		std::cout << mymultimap.begin()->first << " => ";
+		std::cout << mymultimap.begin()->second << '\n';
+		mymultimap.erase(mymultimap.begin()); 
+	// pb dans erase? verifier le rbt dans la boucle pour cmrendre pk il ecrit 202 2 fois
+
+	}
+	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+}
+
+
 int main_mmap ()
 {
  	multimap<char,int> mymultimap;
@@ -44,9 +74,6 @@ int main_mmap ()
 	mymultimap.insert (it, pair<char,int>('c',400));  // no max efficiency inserting
 	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
 
-
-
-
 	// showing contents:
 	std::cout << "mymultimap contains:\n";
 	for (it=mymultimap.begin(); it!=mymultimap.end(); ++it)
@@ -65,7 +92,9 @@ int main_mmap ()
 		std::cout << (*it).first << " => " << (*it).second << '\n';
 	// anothermultimap.get_rbt().print_prefix(anothermultimap.get_rbt().getRoot(), 0);
 
+	// simple_tests();
+
 	return 0;
 }
 
-A faire : testeur pour differentes fcts 
+// A faire : testeur pour differentes fcts 
