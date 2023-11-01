@@ -70,9 +70,9 @@ int main_mmap ()
 	
 
 	mymultimap.insert (it, pair<char,int>('z',500));
-	mymultimap.insert (it, pair<char,int>('d',400));
-	mymultimap.insert (it, pair<char,int>('c',400));  // no max efficiency inserting
 	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+	// mymultimap.insert (it, pair<char,int>('d',400));
+	mymultimap.insert (it, pair<char,int>('c',400));  // no max efficiency inserting
 
 	// showing contents:
 	std::cout << "mymultimap contains:\n";

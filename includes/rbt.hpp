@@ -207,10 +207,10 @@ namespace ft
 			{
 				node_ptr	_parent = _node->parent;
 
-				std::cout << "fixup\n";
-				std::cout << " node = " << _node->pair.second << " " << _node->color << " parent = " << _parent->pair.second << " " << _parent->color << "\n";
-				if (_node->right_child)
-					std::cout << " child = " << _node->right_child->pair.second << " " << _node->right_child->color << "\n";
+				// std::cout << "fixup\n";
+				// std::cout << " node = " << _node->pair.second << " " << _node->color << " parent = " << _parent->pair.second << " " << _parent->color << "\n";
+				// if (_node->right_child)
+				// 	std::cout << " child = " << _node->right_child->pair.second << " " << _node->right_child->color << "\n";
 				// PB  : quid quand parent est la root : ca veut dire qu on ne reequilibre jamais dans ces cas la??
 				// alors qu on devrait pouvoir (cf vizualiser)
 				
@@ -345,49 +345,57 @@ namespace ft
 						if (tmp->left_child)
 						{
 							// tq qu il y a des nodes avec la meme cle en left_child:
-							while (tmp && tmp->left_child)
+							while (tmp && tmp->right_child)
 							{
-								if (tmp->pair.first == tmp->left_child->pair.first)
+								if (tmp->pair.first == tmp->right_child->pair.first)
 								{
-									std::cout << "iech1 \n";
+									// std::cout << "iech1 \n";
 									tmp = tmp->left_child;
 								
-									node_ptr newtmp = tmp->left_child;
+									node_ptr newtmp = tmp->right_child;
 									newtmp = _alloc_rbt.allocate(1);
 									_alloc_rbt.construct(newtmp, node(p));
 									newtmp->color = RED;
 									newtmp->parent = tmp;
 									tmp->right_child = newtmp;
+
 									_size++;
 									insert_fixup(newtmp);
 									return (iterator(newtmp, NULL));
 
 								}
-								else if (tmp->pair.first != tmp->left_child->pair.first)
+								else if (tmp->pair.first != tmp->right_child->pair.first)
 								{
-									std::cout << "iech2 \n";
-									tmp = tmp->left_child;								
-									node_ptr newtmp = tmp->left_child;
+									// std::cout << "iech2 \n";
+									tmp = tmp->right_child;								
+									node_ptr newtmp = tmp->right_child;
 									newtmp = _alloc_rbt.allocate(1);
 									_alloc_rbt.construct(newtmp, node(p));
 									newtmp->color = RED;
 									newtmp->parent = tmp;
-									// if (value_compare(tmp->pair, newtmp->pair))
+									if (value_compare(tmp->pair, newtmp->pair))
 										tmp->right_child = newtmp;
-									// else
-									// 	tmp->left_child = newtmp;
+									else
+										tmp->left_child = newtmp;
 									_size++;
 									insert_fixup(newtmp);
 									return (iterator(newtmp, NULL));
 
 								}
+
+								// manquerait le cas ou il y a deja un node a l emplacement du node equivalent
+								// donc penser a le decaler pour faire l insertion
+								// + possible pb quand meme key que l ordre ne soit pas respecte
+								// (mais possible aussi que ce ne soit pas un pb, si c undefined)
+								// ce qui est etrange c que normalement le nouveau node equivalent est mis comme enfant
+								// et au final il a l air d etre parent a chaque fois 
 							}
 						}
 						// std::cout << "tmp " << tmp->pair.first << " " << tmp->pair.second << "\n";
 						// std::cout << "tmp_parent " << tmp->parent->pair.first<< " " << tmp->parent->pair.second << "\n"; 
 						// if (tmp->left_child)
 						// 	std::cout << "tmp_child " << tmp->left_child->pair.first << " " << tmp->left_child->pair.second << "\n";
-						std::cout << "iech3 \n";
+						// std::cout << "iech3 \n";
 						// creer un nouveau node
 						tmp = _alloc_rbt.allocate(1);
 						_alloc_rbt.construct(tmp, node(p));
