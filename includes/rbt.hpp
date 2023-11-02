@@ -342,7 +342,7 @@ namespace ft
 					{
 						// s il y a plsrs nodes avec la meme cle, aller jusqu'au dernier
 								// std::cout << "coucou1\n";
-						if (tmp->left_child)
+						if (tmp->right_child)
 						{
 							// tq qu il y a des nodes avec la meme cle en left_child:
 							while (tmp && tmp->right_child)
@@ -387,8 +387,8 @@ namespace ft
 								// donc penser a le decaler pour faire l insertion
 								// + possible pb quand meme key que l ordre ne soit pas respecte
 								// (mais possible aussi que ce ne soit pas un pb, si c undefined)
-								// ce qui est etrange c que normalement le nouveau node equivalent est mis comme enfant
-								// et au final il a l air d etre parent a chaque fois 
+								// ce qui est etrae c que normalement le nouveau node equivalent est mis comme enfant
+								// et au final il a l ngair d etre parent a chaque fois 
 							}
 						}
 						// std::cout << "tmp " << tmp->pair.first << " " << tmp->pair.second << "\n";
