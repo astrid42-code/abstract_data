@@ -28,13 +28,13 @@ namespace ft
 			// Effects: Initializes comp with x and c with y; calls make_heap(c.begin(), c.end(), comp)
 			explicit priority_queue(const Compare& x = Compare(), const Container& ctn = Container()) : c(ctn)
 			{
-				std::cout << "prout\n";
+				// std::cout << "prout\n";
 			}
 			
 			template <class InputIterator>
 			priority_queue(InputIterator first, InputIterator last, const Compare& x = Compare(), const Container& = Container())
 			{
-				std::cout << "prout2\n";
+				// std::cout << "prout2\n";
 			}
 			
 			bool empty() const 

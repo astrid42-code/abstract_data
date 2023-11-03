@@ -13,12 +13,6 @@
 namespace ft
 {
 
-	enum status
-	{
-		UNUIQUE = true,
-		NOT_UNIQUE = false
-	};
-
 	template < class Type, class Cmp, class node = node<Type>, class AllocNode = std::allocator<node> >
 	class rbt
 	{

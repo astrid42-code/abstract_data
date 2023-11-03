@@ -13,12 +13,6 @@
 namespace ft
 {
 
-	enum status
-	{
-		UNUIQUE = true,
-		NOT_UNIQUE = false
-	};
-
 	template < class Type, class Cmp, class node = node<Type>, class AllocNode = std::allocator<node> >
 	class rbt
 	{
@@ -547,7 +541,7 @@ namespace ft
 						return (iterator(tmp, tmp->parent));
 					}
 				}
-				std::cout << "prout\n";
+				// std::cout << "prout\n";
 				return (end());
 
 			}
@@ -647,17 +641,18 @@ namespace ft
 			}
 
 
-			void	rbt_transplant(node_ptr x, node_ptr y)
+			void	rbt_transplant(node_ptr b, node_ptr x)
 			{
-				if (!x->parent)
-					_root = y;
-				else if (x == x->parent->left_child)
-					x->parent->left_child = y;
+				
+				if (!b->parent)
+					_root = x;
+				else if (b == b->parent->left_child)
+					b->parent->left_child = x;
 				else
-					x->parent->right_child = y;
+					b->parent->right_child = x;
 
-				if (y)
-					y->parent = x->parent;
+				if (x)
+					x->parent = b->parent;
 			}
 
 			// fcts for erasing a pair
@@ -711,13 +706,19 @@ namespace ft
 					tmp_y->left_child->parent = tmp_y;
 					tmp_y->color = tmp_b->color;
 				}
-				if (tmp_x)
-					std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
+				// if (tmp_x)
+				// 	std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
+print_prefix(getRoot(), 0);
+				// std::cout << "color : " << tmp_color << "\n";
 				if (tmp_color == BLACK && tmp_x)
+				// if (tmp_color == BLACK) // segfault des familles vu que tmp_x est null ...
+				{
+					std::cout << "m1\n";
 					delete_rbt_fixup(tmp_x);
-
-				if (tmp_b)
-					std::cout << " tmp = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
+				}
+print_prefix(getRoot(), 0);
+				// if (tmp_b)
+				// 	std::cout << " tmp = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
 				_alloc_rbt.destroy(tmp_b);
 				_alloc_rbt.deallocate(tmp_b, 1);
 				_size--;
@@ -731,16 +732,10 @@ namespace ft
 				node_ptr	tmp_y = NULL;
 				node_ptr	tmp_x = NULL;
 				
-				// pb : il ne trouve pas les children de root dans la boucle (apparemment null ?!?)
-				// alors qu ils sont bien dans le rbt
+				// print_prefix(getRoot(), 0);
 
 				while (tmp_b)
 				{
-					// std::cout << " tmpb = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
-					// if (tmp_b->right_child)
-					// 	std::cout << " tmpb_rightchild = " << tmp_b->right_child->pair.first << " " << tmp_b->right_child->pair.second << "\n";
-					// if (tmp_b->left_child)
-					// 	std::cout << " tmpb_leftchild = " << tmp_b->left_child->pair.first << " " << tmp_b->left_child->pair.second << "\n";
 					if (tmp->pair.first == x)
 					{
 						tmp_b = tmp;
@@ -756,7 +751,6 @@ namespace ft
 							tmp_b = tmp_b->right_child;
 						else
 							tmp_b = tmp_b->left_child;
-						// std::cout << "tmp_b = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
 						if (!tmp_b->left_child && !tmp_b->right_child)
 							break;
 					}
@@ -771,8 +765,10 @@ namespace ft
 
 				if (!tmp_b->left_child)
 				{
+					print_prefix(getRoot(), 0);
 					tmp_x = tmp_b->right_child;
-					rbt_transplant(tmp_b, tmp_b->right_child);
+					rbt_transplant(tmp_b, tmp_x);
+					
 				}
 				else if (!tmp_b->right_child)
 				{
@@ -800,8 +796,15 @@ namespace ft
 				}
 				// if (tmp_x)
 				// 	std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
+print_prefix(getRoot(), 0);
 				if (tmp_color == BLACK && tmp_x)
+				{
+					
 					delete_rbt_fixup(tmp_x);
+				}
+print_prefix(getRoot(), 0);
+				// std::cout << "tmp_b = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
+				
 
 				_alloc_rbt.destroy(tmp_b);
 				_alloc_rbt.deallocate(tmp_b, 1);
@@ -814,6 +817,7 @@ namespace ft
 				node_ptr	w = NULL;
 				while (x != _root && x->color == BLACK)
 				{
+				std::cout << "o1\n";
 					if (x == x->parent->left_child)
 					{
 						w = x->parent->right_child;

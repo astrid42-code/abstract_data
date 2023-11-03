@@ -50,12 +50,12 @@ int main(int ac, char *av[])
 		return (1);
 	// main_queue();
 	// main_list();
-	main_mmap();
+	// main_mmap();
 	// main_pqueue();
 	// main_deque();
 	// main_stack();
 	// main_vector();
-	// main_map();
+	main_map();
 	// main_set();
 	return (0);
 }

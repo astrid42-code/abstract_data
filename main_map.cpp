@@ -194,50 +194,50 @@ void	test_elementaccess()
 // TEST modifiers (swap, )
 void	test_modifiers_map()
 {
-	//########################### SWAP ################################
+	// //########################### SWAP ################################
 
-	print_res_map(0, "swap ");
-	map<char,int> foo,bar;
+	// print_res_map(0, "swap ");
+	// map<char,int> foo,bar;
 
-	foo['x']=100;
-	foo['y']=200;
+	// foo['x']=100;
+	// foo['y']=200;
 
-	bar['a']=11;
-	bar['b']=22;
-	bar['c']=33;
+	// bar['a']=11;
+	// bar['b']=22;
+	// bar['c']=33;
 
-	std::cout <<  " before swap foo countains " << std::endl;
-	for (map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
-	std::cout <<  " before swap bar countains "<< std::endl;
-	for (map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
+	// std::cout <<  " before swap foo countains " << std::endl;
+	// for (map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << '\n';
+	// std::cout <<  " before swap bar countains "<< std::endl;
+	// for (map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << '\n';
 	
-	foo.swap(bar);
+	// foo.swap(bar);
 
-	std::cout <<  " after swap foo countains "<< std::endl;
-	for (map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
-	std::cout <<  " after swap bar countains "<< std::endl;
-	for (map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-		std::cout << it->first << " => " << it->second << '\n';
+	// std::cout <<  " after swap foo countains "<< std::endl;
+	// for (map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << '\n';
+	// std::cout <<  " after swap bar countains "<< std::endl;
+	// for (map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+	// 	std::cout << it->first << " => " << it->second << '\n';
 
 
 	//########################### CLEAR/INSERT/ERASE ################################
 
-	std::cout << std::endl;
-	print_res_map(0, "clear/insert/erase ");
+	// std::cout << std::endl;
+	// print_res_map(0, "clear/insert/erase ");
 
-	foo.clear();
+	// foo.clear();
 
-	print_res_map(1, "empty/size");
-	std::cout << foo.empty(); // comment envoyer mymap a la fct print?
-	print_res_map(2, "empty/size");
-	std::cout << foo.size() << std::endl;
+	// print_res_map(1, "empty/size");
+	// std::cout << foo.empty(); // comment envoyer mymap a la fct print?
+	// print_res_map(2, "empty/size");
+	// std::cout << foo.size() << std::endl;
 
-	std::cout << std::endl;
+	// std::cout << std::endl;
 	
-	bar.clear();
+	// bar.clear();
 
 	map<char,int> mymap;
 
@@ -245,12 +245,12 @@ void	test_modifiers_map()
 	mymap.insert ( pair<char,int>('a',100) );
 	mymap.insert ( pair<char,int>('z',200) );
 
-	pair<map<char,int>::iterator,bool> ret;
-	ret = mymap.insert ( pair<char,int>('z',500) );
-	if (ret.second==false) {
-		std::cout << "element 'z' already existed";
-		std::cout << " with a value of " << ret.first->second << '\n';
-	}
+	// pair<map<char,int>::iterator,bool> ret;
+	// ret = mymap.insert ( pair<char,int>('z',500) );
+	// if (ret.second==false) {
+	// 	std::cout << "element 'z' already existed";
+	// 	std::cout << " with a value of " << ret.first->second << '\n';
+	// }
 
 	// second insert function version (with hint position):
 	map<char,int>::iterator it = mymap.begin();
@@ -266,13 +266,13 @@ void	test_modifiers_map()
 	for (it=mymap.begin(); it!=mymap.end(); ++it)
 		std::cout << it->first << " => " << it->second << '\n';
 
-	it=mymap.find('b');
-	mymap.erase (it);                   // erasing by iterator
+	it=mymap.find('a');
+	mymap.erase (it);    	            // erasing by iterator
 
-	mymap.erase ('c');                  // erasing by key
+	// mymap.erase ('c');                  // erasing by key
 
-	it=mymap.find ('e');
-	mymap.erase ( it, mymap.end() );    // erasing by range
+	// it=mymap.find ('e');
+	// mymap.erase ( it, mymap.end() );    // erasing by range
 
 	// show content:
 	std::cout << "mymap contains after erase:\n";
@@ -373,38 +373,38 @@ struct classcomp_map
 
 void	main_map()
 {
-	std::cout << "########################### MAP ################################" << std::endl;
-	print_res_map (100, "");
-	print_res_map(0, "Constructors");
+	// std::cout << "########################### MAP ################################" << std::endl;
+	// print_res_map (100, "");
+	// print_res_map(0, "Constructors");
 
-	map<char,int> first;
+	// map<char,int> first;
 
-	first['a']=10;
-	first['b']=30;
-	first['c']=50;
-	first['d']=70;
-	std::cout << "Default constructor : OK " << std::endl;
+	// first['a']=10;
+	// first['b']=30;
+	// first['c']=50;
+	// first['d']=70;
+	// std::cout << "Default constructor : OK " << std::endl;
 
-	map<char,int> second (first.begin(),first.end());
-	std::cout << "Range constructor : OK " << std::endl; 
+	// map<char,int> second (first.begin(),first.end());
+	// std::cout << "Range constructor : OK " << std::endl; 
 
-	std::cout << "Copy constructor : OK " << std::endl; 
-	map<char,int> third (second);
+	// std::cout << "Copy constructor : OK " << std::endl; 
+	// map<char,int> third (second);
 
-	map<char,int,classcomp_map> fourth;                 // class as Compare
+	// map<char,int,classcomp_map> fourth;                 // class as Compare
 
-	bool(*fn_pt)(char,char) = fncomp;
-	map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
-	third = second;
-	std::cout << "Overload operator = : OK" << std::endl;
-	std::cout << std::endl;
+	// bool(*fn_pt)(char,char) = fncomp;
+	// map<char,int,bool(*)(char,char)> fifth (fn_pt); // function pointer as Compare
+	// third = second;
+	// std::cout << "Overload operator = : OK" << std::endl;
+	// std::cout << std::endl;
 	
 
 	// test_capacity_map();
 	// std::cout << std::endl;
 
-	// test_modifiers_map();
-	// std::cout << std::endl;
+	test_modifiers_map();
+	std::cout << std::endl;
 
 	// test_elementaccess();
 	// std::cout << std::endl;

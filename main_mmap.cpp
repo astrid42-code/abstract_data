@@ -47,7 +47,84 @@ void simple_tests()
 
 	}
 	std::cout << "is my mmap empty ? (0 : false / 1 : true) " << mymultimap.empty() << "\n";
-	// mymultimap.get_rbt().print_prefix(mymultimap.get_rbt().getRoot(), 0);
+
+	multimap<char,int> mymultimap2;
+
+	mymultimap2.insert(make_pair('x',100));
+	mymultimap2.insert(make_pair('y',200));
+	mymultimap2.insert(make_pair('y',350));
+	mymultimap2.insert(make_pair('z',500));
+
+	std::cout << '\n';
+
+	std::cout << "########## SIZE ##########\n";
+	std::cout << "mymultimap2.size() is " << mymultimap2.size() << '\n';
+
+	std::cout << '\n';
+
+	std::cout << "########## SWAP ##########\n";
+	multimap<char,int> foo,bar;
+
+	foo.insert(make_pair('x',100));
+	foo.insert(make_pair('y',200));
+
+	bar.insert(make_pair('a',11));
+	bar.insert(make_pair('b',22));
+	bar.insert(make_pair('a',55));
+
+	foo.swap(bar);
+
+	std::cout << "foo contains:\n";
+	for (multimap<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
+		std::cout << (*it).first << " => " << (*it).second << '\n';
+
+	std::cout << "bar contains:\n";
+	for (multimap<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
+		std::cout << (*it).first << " => " << (*it).second << '\n';
+	
+	std::cout << '\n';
+	std::cout << "########## CLEAR ##########\n";
+
+	multimap<char,int> mymultimap3;
+	multimap<char,int>::iterator it;
+
+	mymultimap3.insert(pair<char,int>('b',80));
+	mymultimap3.insert(pair<char,int>('b',120));
+	mymultimap3.insert(pair<char,int>('q',360));
+
+	std::cout << "mymultimap3 contains:\n";
+	for (it=mymultimap3.begin(); it!=mymultimap3.end(); ++it)
+		std::cout << (*it).first << " => " << (*it).second << '\n';
+
+	mymultimap3.clear();
+
+	mymultimap3.insert(pair<char,int>('a',11));
+	mymultimap3.insert(pair<char,int>('x',22));
+
+	std::cout << "mymultimap3 contains:\n";
+	for (it=mymultimap3.begin(); it != mymultimap3.end(); ++it)
+		std::cout << (*it).first << " => " << (*it).second << '\n';
+
+	std::cout << '\n';
+	std::cout << "########## FIND / COUNT / BOUND ##########\n";
+
+	multimap<char,int> mymm;
+
+	mymm.insert (make_pair('x',10));
+	mymm.insert (make_pair('y',20));
+	mymm.insert (make_pair('z',30));
+	mymm.insert (make_pair('z',40));
+
+	multimap<char,int>::iterator it2 = mymm.find('x');
+	mymm.erase (it2);
+	// mymm.get_rbt().print_prefix(mymm.get_rbt().getRoot(), 0);
+	// mymm.erase (mymm.find('z'));
+
+	// // print content:
+	// std::cout << "elements in mymm:" << '\n';
+	// std::cout << "y => " << mymm.find('y')->second << '\n';
+	// std::cout << "z => " << mymm.find('z')->second << '\n';
+
 }
 
 
