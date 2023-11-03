@@ -216,13 +216,14 @@ rbt<value_type, key_compare> get_rbt() const
 
 			void erase(iterator position)
 			{
-				if (_rbt.erase(position->first) == 0)
+				// std::cout << "pos = " << (*position).second << "\n";
+				if (_rbt.erase_mmap(position->first) == 0)
 					return;
 			}
 
 			size_type erase(const key_type& x)
 			{
-				size_type res = _rbt.erase(x);
+				size_type res = _rbt.erase_mmap(x);
 
 				if (res == 0)
 					return (0);

@@ -711,10 +711,95 @@ namespace ft
 					tmp_y->left_child->parent = tmp_y;
 					tmp_y->color = tmp_b->color;
 				}
+				if (tmp_x)
+					std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
+				if (tmp_color == BLACK && tmp_x)
+					delete_rbt_fixup(tmp_x);
+
+				if (tmp_b)
+					std::cout << " tmp = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
+				_alloc_rbt.destroy(tmp_b);
+				_alloc_rbt.deallocate(tmp_b, 1);
+				_size--;
+				return (1);
+			}
+
+			size_type	erase_mmap(const key_type& x)
+			{
+				node_ptr	tmp_b = getRoot();
+				node_ptr	tmp = getBegin(tmp_b);
+				node_ptr	tmp_y = NULL;
+				node_ptr	tmp_x = NULL;
+				
+				// pb : il ne trouve pas les children de root dans la boucle (apparemment null ?!?)
+				// alors qu ils sont bien dans le rbt
+
+				while (tmp_b)
+				{
+					// std::cout << " tmpb = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
+					// if (tmp_b->right_child)
+					// 	std::cout << " tmpb_rightchild = " << tmp_b->right_child->pair.first << " " << tmp_b->right_child->pair.second << "\n";
+					// if (tmp_b->left_child)
+					// 	std::cout << " tmpb_leftchild = " << tmp_b->left_child->pair.first << " " << tmp_b->left_child->pair.second << "\n";
+					if (tmp->pair.first == x)
+					{
+						tmp_b = tmp;
+						break;
+					}
+					if (tmp_b && value_compare(x, tmp_b->pair.first))
+						tmp_b = tmp_b->left_child;
+					else if (tmp_b && value_compare(tmp_b->pair.first, x))
+						tmp_b = tmp_b->right_child;
+					else if (tmp_b->right_child && tmp_b->left_child && (tmp_b->right_child->pair.first == x || tmp_b->left_child->pair.first == x))
+					{
+						if (tmp_b->right_child->pair.first == x)
+							tmp_b = tmp_b->right_child;
+						else
+							tmp_b = tmp_b->left_child;
+						// std::cout << "tmp_b = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
+						if (!tmp_b->left_child && !tmp_b->right_child)
+							break;
+					}
+					
+				}
+				
+				if (!tmp_b)
+					return (0);
+				
+				tmp_y = tmp_b;
+				int tmp_color = tmp_y->color;				
+
+				if (!tmp_b->left_child)
+				{
+					tmp_x = tmp_b->right_child;
+					rbt_transplant(tmp_b, tmp_b->right_child);
+				}
+				else if (!tmp_b->right_child)
+				{
+					tmp_x = tmp_b->left_child;
+					rbt_transplant(tmp_b, tmp_b->left_child);
+				}
+				else
+				{
+					tmp_y = getBegin(tmp_b->right_child);
+					tmp_color = tmp_y->color;
+					tmp_x = tmp_y->right_child;
+					if (tmp_x && tmp_y->parent == tmp_b)
+						tmp_x->parent = tmp_y;
+					else
+					{
+						rbt_transplant(tmp_y, tmp_y->right_child);
+						tmp_y->right_child = tmp_b->right_child;
+						if (tmp_y->right_child)
+							tmp_y->right_child->parent = tmp_y;
+					}
+					rbt_transplant(tmp_b, tmp_y);
+					tmp_y->left_child = tmp_b->left_child;
+					tmp_y->left_child->parent = tmp_y;
+					tmp_y->color = tmp_b->color;
+				}
 				// if (tmp_x)
-					// std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
-				// if (tmp_b)
-					// std::cout << " tmp = " << tmp_b->pair.first << " " << tmp_b->pair.second << "\n";
+				// 	std::cout << " tmp_x= " << tmp_x->pair.first << " " << tmp_x->pair.second;
 				if (tmp_color == BLACK && tmp_x)
 					delete_rbt_fixup(tmp_x);
 
